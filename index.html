@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.9.0">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+        <title>Dive into Deep</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-material-design.css" rel="stylesheet">
+        <link href="/css/ripples.css" rel="stylesheet">
+        <link href="/css/index.css" rel="stylesheet"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </head>
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- 导航栏 -->
+        <div class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Dive into Deep</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input type="text" class="form-control col-sm-8" placeholder="Search">
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/archives">归档</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 内容 -->
+        <div class="col-md-8 col-md-offset-1">
+
+    <!-- 博客列表 -->
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="panel-title" href="/2020/01/05/Analysis-Chapter3/">  </a>
+            </div>
+            <div class="panel-body">
+                
+
+                <div class="excerpt-footer">
+                    
+                    <a class="btn btn-raised btn-info btn-sm pull-right" href="/2020/01/05/Analysis-Chapter3/">Read More</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="panel-title" href="/2020/01/05/Analysis-Chapter2/">  </a>
+            </div>
+            <div class="panel-body">
+                
+
+                <div class="excerpt-footer">
+                    
+                    <a class="btn btn-raised btn-info btn-sm pull-right" href="/2020/01/05/Analysis-Chapter2/">Read More</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="panel-title" href="/2017/11/14/mxnet-archlinux/"> Build MXNet on Arch Linux </a>
+            </div>
+            <div class="panel-body">
+                <p>今天又试着在 Arch Linux 上 build MXNet，居然幸运地成功了，并且在 NetBeans 里导入了 MXNet 的项目。</p>
+<p>Arch Linux 的安装，Nvidia 驱动，CUDA 和 cuDNN 的安装已经在上一篇博客中介绍了 (<a href="../../../2017/11/05/pytorch-archlinux/">Deep Learning Environment with Arch Linux and PyTorch</a>)，这篇就只针对如何 build MXNet 做一个记录。</p>
+<p>安装期间基本按照 MXNet 官网的文档 <a href="http://mxnet.incubator.apache.org/install/index.html" target="_blank" rel="noopener">Installing MXNet</a>，有些问题参考了网上帖子和 Arch Linux 的 AUR。</p>
+
+                <div class="excerpt-footer">
+                    
+                        <a class="label label-default" href="/tags/linux/"> linux </a>
+                    
+                        <a class="label label-default" href="/tags/deeplearning/"> deeplearning </a>
+                    
+                        <a class="label label-default" href="/tags/mxnet/"> mxnet </a>
+                    
+                    <a class="btn btn-raised btn-info btn-sm pull-right" href="/2017/11/14/mxnet-archlinux/">Read More</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="panel-title" href="/2017/11/05/pytorch-archlinux/"> Deep Learning Environment with Arch Linux and PyTorch </a>
+            </div>
+            <div class="panel-body">
+                <p>终于组装了一台电脑用于学习深度学习。折腾了几天，大体把 Arch Linux 和 PyTorch 装上了，不过还没有比较完整地验证是否安装正确。在这里大概地记录一下安装步骤，供以后重装系统时参考。</p>
+
+                <div class="excerpt-footer">
+                    
+                        <a class="label label-default" href="/tags/linux/"> linux </a>
+                    
+                        <a class="label label-default" href="/tags/deeplearning/"> deeplearning </a>
+                    
+                        <a class="label label-default" href="/tags/pytorch/"> pytorch </a>
+                    
+                    <a class="btn btn-raised btn-info btn-sm pull-right" href="/2017/11/05/pytorch-archlinux/">Read More</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="panel-title" href="/2017/09/28/mxnet-architecture-data-loading/"> 为深度学习设计高效的数据加载器（翻译） </a>
+            </div>
+            <div class="panel-body">
+                <p>翻译自：<a href="https://mxnet.incubator.apache.org/architecture/note_data_loading.html" target="_blank" rel="noopener">https://mxnet.incubator.apache.org/architecture/note_data_loading.html</a></p>
+<p>在任何机器学习系统中，数据加载都是很重要的一部分。当我们处理很小的数据集时，我们可以把整个数据集加载到 GPU 的内存中。对于大的数据集，我们必须把训练样本放在主内存。当数据集大到主内存都放不下时，数据加载就变成影响性能的很重要的一点。设计数据加载器时，我们的目标是高效的数据加载和数据准备，并且提供一个干净灵活的接口。</p>
+
+                <div class="excerpt-footer">
+                    
+                        <a class="label label-default" href="/tags/deeplearning/"> deeplearning </a>
+                    
+                        <a class="label label-default" href="/tags/mxnet/"> mxnet </a>
+                    
+                    <a class="btn btn-raised btn-info btn-sm pull-right" href="/2017/09/28/mxnet-architecture-data-loading/">Read More</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="panel-title" href="/2017/09/26/mxnet-architecture-memory/"> 优化深度学习中的内存使用（翻译） </a>
+            </div>
+            <div class="panel-body">
+                <p>翻译自：<a href="https://mxnet.incubator.apache.org/architecture/note_memory.html" target="_blank" rel="noopener">https://mxnet.incubator.apache.org/architecture/note_memory.html</a></p>
+<p>过去十年中，深度学习一直在往更深和更大的网络发展。尽管硬件也在快速地发展，最前沿的深度学习模型一直将 GPU 的内存用到极限。所以，我们总是想找到方法来用尽量少的内存训练更大的模型。这使我们能够训练的更快，使用更大的分批大小，从而实现更高的 GPU 利用率。</p>
+<p>在这篇文章中，我们会探索在深度神经网络中，优化内存分配的各种技术。我们讨论了一些候选解决方案。虽然我们这里无法覆盖到所有可能的方案，但是这些都很有教育性并且足够让我们介绍设计中要面临的主要问题。</p>
+
+                <div class="excerpt-footer">
+                    
+                        <a class="label label-default" href="/tags/deeplearning/"> deeplearning </a>
+                    
+                        <a class="label label-default" href="/tags/mxnet/"> mxnet </a>
+                    
+                    <a class="btn btn-raised btn-info btn-sm pull-right" href="/2017/09/26/mxnet-architecture-memory/">Read More</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="panel-title" href="/2017/09/25/mxnet-architecture-dependency-engine/"> 深度学习中的依赖引擎（翻译） </a>
+            </div>
+            <div class="panel-body">
+                <p>翻译自 <a href="https://mxnet.incubator.apache.org/architecture/note_engine.html" target="_blank" rel="noopener">https://mxnet.incubator.apache.org/architecture/note_engine.html</a></p>
+<p>我们总是希望深度学习库能跑的更快并且能扩展到更大的数据集。一个很自然的方法是看看我们是否能用更多的硬件（用多个 GPU 并行处理）来解决这个问题。</p>
+<p>深度学习库的设计者要面对这样一个问题：我们如何让计算在多个设备之间并行？并且更重要的是，当我们引入了多线程，该如何对计算进行同步？一个运行时的依赖引擎是个通用的解决方案。</p>
+<p>这篇文章中，我们调查了使用运行时依赖调度来加速深度学习的各种方法。我们的目标是解释运行时依赖调度是如何加速并简化深度学习。我们还探索了对库和运算都无关的通用的依赖引擎可能的设计方案。</p>
+<p>这篇文章中我们讨论的大部分内容都是来自于 MXNet 的依赖引擎。这个依赖跟踪算法主要是由 <a href="https://github.com/hotpxl" target="_blank" rel="noopener">Yutian Li</a> 和 <a href="https://github.com/jermainewang" target="_blank" rel="noopener">Mingjie Wang</a> 开发的。</p>
+
+                <div class="excerpt-footer">
+                    
+                        <a class="label label-default" href="/tags/deeplearning/"> deeplearning </a>
+                    
+                        <a class="label label-default" href="/tags/mxnet/"> mxnet </a>
+                    
+                    <a class="btn btn-raised btn-info btn-sm pull-right" href="/2017/09/25/mxnet-architecture-dependency-engine/">Read More</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="panel-title" href="/2017/09/19/mxnet-architecture-program-model/"> 深度学习编程风格 (翻译) </a>
+            </div>
+            <div class="panel-body">
+                <p>翻译自 <a href="https://mxnet.incubator.apache.org/architecture/program_model.html" target="_blank" rel="noopener">https://mxnet.incubator.apache.org/architecture/program_model.html</a></p>
+<p>不论最终我们多么关心性能，首先我们要做的是让代码跑起来，然后才能开始关心如何优化它。要写出整洁易读的深度学习代码有挑战性，任何人首先要关心的就是编程的语法。麻烦的是，有那么多深度学习库，每种都有它们自己的编程风格。</p>
+<p>这篇文章中，我们的讨论集中在两个最重要的上层 (high-level) 的设计方案：</p>
+<ol>
+<li>对数学计算，是支持符号还是命令式。</li>
+<li>是适用更大更抽象的运算来构建神经网络，还是用更原子性的操作。</li>
+</ol>
+<p>我们的讨论将集中在编程模型本身。当编程风格对性能有影响时，我们会指出来，但是不会深入讨论实现上的细节。</p>
+
+                <div class="excerpt-footer">
+                    
+                        <a class="label label-default" href="/tags/deeplearning/"> deeplearning </a>
+                    
+                        <a class="label label-default" href="/tags/mxnet/"> mxnet </a>
+                    
+                    <a class="btn btn-raised btn-info btn-sm pull-right" href="/2017/09/19/mxnet-architecture-program-model/">Read More</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="panel-title" href="/2017/09/10/mxnet-architecture-overview/"> MXNet 系统架构（翻译） </a>
+            </div>
+            <div class="panel-body">
+                <p>翻译自 <a href="https://mxnet.incubator.apache.org/architecture/overview.html" target="_blank" rel="noopener">https://mxnet.incubator.apache.org/architecture/overview.html</a></p>
+
+                <div class="excerpt-footer">
+                    
+                        <a class="label label-default" href="/tags/deeplearning/"> deeplearning </a>
+                    
+                        <a class="label label-default" href="/tags/mxnet/"> mxnet </a>
+                    
+                    <a class="btn btn-raised btn-info btn-sm pull-right" href="/2017/09/10/mxnet-architecture-overview/">Read More</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="panel-title" href="/2017/09/01/understanding-backprop/"> 理解 Back-propagation </a>
+            </div>
+            <div class="panel-body">
+                <p>Back-propagation is a key procedure in deep learning. It’s used to calculate the gradients in the layers, which are then used in optimization processes (gradient descent and other derived algorithms). So it’s important to get a solid understanding on how back-propagation works. It really took me a long time to grasp the idea and finally derive the procedure.</p>
+<p>What I’m writing here is mostly inspired by <a href="http://neuralnetworksanddeeplearning.com/chap2.html" target="_blank" rel="noopener">Chapter 2 of the online book Neural Network and Deep Learning</a>. Honestly, I just read through Chapter 2, tried to understand it and then re-write the deriviation.</p>
+<p>And my next step is to code back-propagation by hand, so that I could be more confident about it.</p>
+
+                <div class="excerpt-footer">
+                    
+                        <a class="label label-default" href="/tags/deeplearning/"> deeplearning </a>
+                    
+                    <a class="btn btn-raised btn-info btn-sm pull-right" href="/2017/09/01/understanding-backprop/">Read More</a>
+                </div>
+            </div>
+        </div>
+    
+
+    <!-- 分页 -->
+    <ul class="pagination">
+        
+            <li class="disabled"><span>&laquo;</span></li>
+        
+
+        
+            
+                <li class="active disabled"><span> 1 </span></li>
+            
+        
+            
+                <li><a href="/page/2"> 2 </a></li>
+            
+        
+            
+                <li><a href="/page/3"> 3 </a></li>
+            
+        
+
+        
+            <li><a href="/page/3">&raquo;</a></li>
+        
+    </ul>
+
+</div>
+
+
+
+        <!-- 右边栏 -->
+<div class="col-md-2">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">标签</h3>
+        </div>
+
+        <div class="panel-body">
+            
+            
+                <a href="/tags/akka/"> akka </a>
+            
+                <a href="/tags/architecture/"> architecture </a>
+            
+                <a href="/tags/deeplearning/"> deeplearning </a>
+            
+                <a href="/tags/haskell/"> haskell </a>
+            
+                <a href="/tags/java/"> java </a>
+            
+                <a href="/tags/linux/"> linux </a>
+            
+                <a href="/tags/math/"> math </a>
+            
+                <a href="/tags/monad/"> monad </a>
+            
+                <a href="/tags/mxnet/"> mxnet </a>
+            
+                <a href="/tags/nginx/"> nginx </a>
+            
+                <a href="/tags/php/"> php </a>
+            
+                <a href="/tags/probability/"> probability </a>
+            
+                <a href="/tags/python/"> python </a>
+            
+                <a href="/tags/pytorch/"> pytorch </a>
+            
+                <a href="/tags/statistics/"> statistics </a>
+            
+        </div>
+    </div>
+
+    <!-- 创建 archive list -->
+    
+
+    <!-- 归档 -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">归档</h3>
+        </div>
+        <div class="panel-body archive-list">
+            
+                <a href="/archives/2020/01"> 2020 Jan </a>
+            
+                <a href="/archives/2017/11"> 2017 Nov </a>
+            
+                <a href="/archives/2017/09"> 2017 Sep </a>
+            
+                <a href="/archives/2017/06"> 2017 Jun </a>
+            
+                <a href="/archives/2017/02"> 2017 Feb </a>
+            
+                <a href="/archives/2016/11"> 2016 Nov </a>
+            
+                <a href="/archives/2016/10"> 2016 Oct </a>
+            
+                <a href="/archives/2015/03"> 2015 Mar </a>
+            
+                <a href="/archives/2014/10"> 2014 Oct </a>
+            
+                <a href="/archives/2013/07"> 2013 Jul </a>
+            
+                <a href="/archives/2013/06"> 2013 Jun </a>
+            
+                <a href="/archives/2013/05"> 2013 May </a>
+            
+                <a href="/archives/2009/01"> 2009 Jan </a>
+            
+        </div>
+    </div>
+
+    <!-- <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">最新文章</h3>
+        </div>
+        <div class="panel-body">
+            <div>离散型概率分布</div>
+            <div>概率论基础公式</div>
+            <div>在Nginx上配置PHP</div>
+        </div>
+    </div> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+    </body>
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/material.js"></script>
+    <script src="/js/ripples.js"></script>
+    <script type="text/javascript">
+        $.material.init();
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2853d265112c92ccbe9cea1dcd4a4b69";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</html>

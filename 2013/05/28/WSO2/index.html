@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.9.0">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+        <title>Dive into Deep</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-material-design.css" rel="stylesheet">
+        <link href="/css/ripples.css" rel="stylesheet">
+        <link href="/css/index.css" rel="stylesheet"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </head>
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- 导航栏 -->
+        <div class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Dive into Deep</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input type="text" class="form-control col-sm-8" placeholder="Search">
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/archives">归档</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 内容 -->
+        <div class="col-md-8 col-md-offset-1">
+    <h3>WSO2</h3>
+    <h3 id="Points-to-Keep-in-Mind"><a href="#Points-to-Keep-in-Mind" class="headerlink" title="Points to Keep in Mind"></a>Points to Keep in Mind</h3><ol>
+<li>API Management</li>
+<li>Strip off unnecessary components (for lightweight)</li>
+<li>Develop Stratos components</li>
+<li>Cloudify (configuration, communication, load balancing)</li>
+<li>Security - WS Security, REST Security</li>
+<li>Performance - Latency, Throughput, Downtime</li>
+<li>Monitoring</li>
+<li>Database - MongoDB?</li>
+<li>Bloat about XML configuration</li>
+<li>Identity Management</li>
+<li>Upgrading</li>
+<li>Backward compatible</li>
+<li>Migration script</li>
+</ol>
+<a id="more"></a>
+<h3 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h3><h2 id="Database"><a href="#Database" class="headerlink" title="Database"></a>Database</h2><p>mysql&gt; insert into mysql.user (host, user, password) values(‘localhost’, ‘userstore’, password(‘userstore’));<br>mysql&gt; flush privileges;</p>
+<p>Need to do the same for user ‘registry’</p>
+<h3 id="Carbon"><a href="#Carbon" class="headerlink" title="Carbon"></a>Carbon</h3><p>Start script: wso2server.sh</p>
+<p>Main class: org.wso2.carbon.bootstrap.Bootstrap</p>
+<pre><code class="java">public static void main(String[] args) {
+    //Setting Carbon Home
+    if (System.getProperty(LauncherConstants.CARBON_HOME) == null) {
+        System.setProperty(LauncherConstants.CARBON_HOME, &quot;.&quot;);
+    }
+    System.setProperty(LauncherConstants.AXIS2_HOME, System.getProperty(LauncherConstants.CARBON_HOME));
+
+    //To keep track of the time taken to start the Carbon server.
+    System.setProperty(&quot;wso2carbon.start.time&quot;, System.currentTimeMillis() + &quot;&quot;);
+
+    writePID(System.getProperty(LauncherConstants.CARBON_HOME));
+
+    processCmdLineArgs(args);
+    invokeExtensions();
+    launchCarbon();
+}
+</code></pre>
+<h2 id="CarbonLauncher"><a href="#CarbonLauncher" class="headerlink" title="CarbonLauncher"></a>CarbonLauncher</h2><p>setup framework class loader  ?? java.security.AccessController.doPrivileged (why)</p>
+<pre><code class="xml">launch() {
+  build initial property map - read from repository/conf/etc/launch.ini
+  for osgi properties, mainly defined the JDK packages exported through the system bundle
+  org.osgi.framework.system.packages
+
+  then invoke org.eclipse.core.runtime.adaptor.EclipseStarter.startup()
+}
+</code></pre>
+<p>how to handle class loader in a framework</p>
+<pre><code class="java">ClassLoader original = Thread.currentThread().getContextClassLoader();
+try {
+    frameworkClassLoader = java.security.AccessController.doPrivileged(
+                new java.security.PrivilegedAction&lt;URLClassLoader&gt;() {
+                    public URLClassLoader run() {
+                        URLClassLoader cl = null;
+                        try {
+                            cl = new ChildFirstURLClassLoader(
+                                    new URL[]{new URL(initialPropsMap.get(OSGI_FRAMEWORK))}, null);
+                        } catch (MalformedURLException e) {
+                            log.error(e.getMessage(), e);
+                        }
+                        return cl;
+                    }
+                }
+        );
+} finally {
+  Thread.currentThread().setContextClassLoader(original);
+}
+</code></pre>
+<h3 id="How-Tomcat-is-started"><a href="#How-Tomcat-is-started" class="headerlink" title="How Tomcat is started"></a>How Tomcat is started</h3><p>org.wso2.carbon.tomcat.internal.TomcatBundleActivator</p>
+
+</div>
+
+
+        <!-- 右边栏 -->
+<div class="col-md-2">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">标签</h3>
+        </div>
+
+        <div class="panel-body">
+            
+            
+                <a href="/tags/akka/"> akka </a>
+            
+                <a href="/tags/architecture/"> architecture </a>
+            
+                <a href="/tags/deeplearning/"> deeplearning </a>
+            
+                <a href="/tags/haskell/"> haskell </a>
+            
+                <a href="/tags/java/"> java </a>
+            
+                <a href="/tags/linux/"> linux </a>
+            
+                <a href="/tags/math/"> math </a>
+            
+                <a href="/tags/monad/"> monad </a>
+            
+                <a href="/tags/mxnet/"> mxnet </a>
+            
+                <a href="/tags/nginx/"> nginx </a>
+            
+                <a href="/tags/php/"> php </a>
+            
+                <a href="/tags/probability/"> probability </a>
+            
+                <a href="/tags/python/"> python </a>
+            
+                <a href="/tags/pytorch/"> pytorch </a>
+            
+                <a href="/tags/statistics/"> statistics </a>
+            
+        </div>
+    </div>
+
+    <!-- 创建 archive list -->
+    
+
+    <!-- 归档 -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">归档</h3>
+        </div>
+        <div class="panel-body archive-list">
+            
+                <a href="/archives/2020/01"> 2020 Jan </a>
+            
+                <a href="/archives/2017/11"> 2017 Nov </a>
+            
+                <a href="/archives/2017/09"> 2017 Sep </a>
+            
+                <a href="/archives/2017/06"> 2017 Jun </a>
+            
+                <a href="/archives/2017/02"> 2017 Feb </a>
+            
+                <a href="/archives/2016/11"> 2016 Nov </a>
+            
+                <a href="/archives/2016/10"> 2016 Oct </a>
+            
+                <a href="/archives/2015/03"> 2015 Mar </a>
+            
+                <a href="/archives/2014/10"> 2014 Oct </a>
+            
+                <a href="/archives/2013/07"> 2013 Jul </a>
+            
+                <a href="/archives/2013/06"> 2013 Jun </a>
+            
+                <a href="/archives/2013/05"> 2013 May </a>
+            
+                <a href="/archives/2009/01"> 2009 Jan </a>
+            
+        </div>
+    </div>
+
+    <!-- <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">最新文章</h3>
+        </div>
+        <div class="panel-body">
+            <div>离散型概率分布</div>
+            <div>概率论基础公式</div>
+            <div>在Nginx上配置PHP</div>
+        </div>
+    </div> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+    </body>
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/material.js"></script>
+    <script src="/js/ripples.js"></script>
+    <script type="text/javascript">
+        $.material.init();
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2853d265112c92ccbe9cea1dcd4a4b69";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</html>

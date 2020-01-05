@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.9.0">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+        <title>Dive into Deep</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-material-design.css" rel="stylesheet">
+        <link href="/css/ripples.css" rel="stylesheet">
+        <link href="/css/index.css" rel="stylesheet"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </head>
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- 导航栏 -->
+        <div class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Dive into Deep</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input type="text" class="form-control col-sm-8" placeholder="Search">
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/archives">归档</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 内容 -->
+        <div class="col-md-8 col-md-offset-1">
+    <h3>深度学习中的依赖引擎（翻译）</h3>
+    <p>翻译自 <a href="https://mxnet.incubator.apache.org/architecture/note_engine.html" target="_blank" rel="noopener">https://mxnet.incubator.apache.org/architecture/note_engine.html</a></p>
+<p>我们总是希望深度学习库能跑的更快并且能扩展到更大的数据集。一个很自然的方法是看看我们是否能用更多的硬件（用多个 GPU 并行处理）来解决这个问题。</p>
+<p>深度学习库的设计者要面对这样一个问题：我们如何让计算在多个设备之间并行？并且更重要的是，当我们引入了多线程，该如何对计算进行同步？一个运行时的依赖引擎是个通用的解决方案。</p>
+<p>这篇文章中，我们调查了使用运行时依赖调度来加速深度学习的各种方法。我们的目标是解释运行时依赖调度是如何加速并简化深度学习。我们还探索了对库和运算都无关的通用的依赖引擎可能的设计方案。</p>
+<p>这篇文章中我们讨论的大部分内容都是来自于 MXNet 的依赖引擎。这个依赖跟踪算法主要是由 <a href="https://github.com/hotpxl" target="_blank" rel="noopener">Yutian Li</a> 和 <a href="https://github.com/jermainewang" target="_blank" rel="noopener">Mingjie Wang</a> 开发的。</p>
+<a id="more"></a>
+<h2 id="依赖调度"><a href="#依赖调度" class="headerlink" title="依赖调度"></a>依赖调度</h2><p>尽管多数用户想要从并行计算中获益，然而多数的用户都对顺序编程更加熟悉。所以一个很自然的问题是：我们如何写顺序的程序，然后创建一个库来自动地使我们的程序并行化并且异步执行？</p>
+<p>举个例子，在如下代码中，我们可以以任意顺序执行 B = A + 1 和 C = A + 2，或者并行执行它们：</p>
+<pre><code class="python">A = 2
+B = A + 1
+C = A + 2
+D = B * C
+</code></pre>
+<p>然而，要用手写出这个顺序不是那么容易，因为最后一个操作 D = B * C，需要等待前两个操作都完成才可以开始执行。下面的依赖图/数据流图展示了这点。</p>
+<p><img src="./dep_simple.png" alt="simple dependency"></p>
+<p>依赖引擎是一个库，它对一系列顺序的操作进行调度，根据一定的依赖关系，尽可能地将操作并行化。在这个例子中，调度引擎库可以并行执行 B = A + 1 和 C = A + 2，然后在它们都结束了之后再执行 D = B * C。</p>
+<h2 id="依赖调度中的一些问题"><a href="#依赖调度中的一些问题" class="headerlink" title="依赖调度中的一些问题"></a>依赖调度中的一些问题</h2><p>依赖引擎可以简化并发程序的开发。然而，操作的并行化带来了新的依赖跟踪问题。这一节中，我们讨论这些问题。</p>
+<h3 id="数据流依赖"><a href="#数据流依赖" class="headerlink" title="数据流依赖"></a>数据流依赖</h3><p>数据流依赖描述了一个计算的输出如何可以被用在另一个计算中。每个依赖引擎都必须解决数据流依赖的问题。</p>
+<p><img src="./dep_simple.png" alt="simple dependency"></p>
+<p>因为我们在前一节中讨论过这个问题，我们在这里用了同一个图。使用了数据流跟踪引擎的库包括 Minerva 和 Purine2。</p>
+<h3 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h3><p>我们什么时候应该回收分配给数组的内存？在顺序处理中，这个很容易确定。我们可以简单地在出了变量的作用域时回收它。然而，在并行处理时，事情就要复杂一些了，如下图所示：</p>
+<p><img src="./dep_del.png" alt="delete variable"></p>
+<p>在这个例子中，因为两个计算都需要使用 A 的值，我们不能在它们全都结束之前回收 A 的内存。引擎必须根据计算的依赖关系调度内存的回收操作，并且保证回收操作在 B = A + 1 和 C = A + 2 完成之后执行。</p>
+<h3 id="随机数生成"><a href="#随机数生成" class="headerlink" title="随机数生成"></a>随机数生成</h3><p>在机器学习中很常用的随机数生成器，给了依赖引擎一个有趣的挑战。考虑如下例子：</p>
+<p><img src="./dep_rand.png" alt="random generation"></p>
+<p>在这个例子中，我们按顺序生成随机数。尽管看起来两个随机数的生成可以并行化，然而实际情况并非如此。一个伪随机数生成器（PRNG）不是线程安全的，因为生成新随机数的时候可能会造成一些内部状态的变化。即使 PRNG 是线程安全的，我们也希望序列化的随机数生成，因为这样我们能得到可复现的随机数。</p>
+<h2 id="案例分析：多-GPU-神经网络的依赖引擎"><a href="#案例分析：多-GPU-神经网络的依赖引擎" class="headerlink" title="案例分析：多 GPU 神经网络的依赖引擎"></a>案例分析：多 GPU 神经网络的依赖引擎</h2><p>在上一节中，我们讨论了在设计依赖引擎中可能遇到的问题。在思考如何设计一个通用的引擎来解决这些问题之前，让我们考虑依赖引擎如何能够在多个 GPU 时帮助神经网络的训练。以下伪代码展示了训练一个两层神经网络中的一个批次 (batch)。</p>
+<pre><code class="python"># Example of one iteration Two GPU neural Net
+data = next_batch()
+data[gpu0].copyfrom(data[0:50])
+data[gpu1].copyfrom(data[50:100])
+# forward, backprop on GPU 0
+fc1[gpu0] = FullcForward(data[gpu0], fc1_weight[gpu0])
+fc2[gpu0] = FullcForward(fc1[gpu0], fc2_weight[gpu0])
+fc2_ograd[gpu0] = LossGrad(fc2[gpu0], label[0:50])
+fc1_ograd[gpu0], fc2_wgrad[gpu0] =
+  FullcBackward(fc2_ograd[gpu0] , fc2_weight[gpu0])
+  _, fc1_wgrad[gpu0] = FullcBackward(fc1_ograd[gpu0] , fc1_weight[gpu0])
+# forward, backprop on GPU 1
+fc1[gpu1] = FullcForward(data[gpu1], fc1_weight[gpu1])
+fc2[gpu1] = FullcForward(fc1[gpu1], fc2_weight[gpu1])
+fc2_ograd[gpu1] = LossGrad(fc2[gpu1], label[50:100])
+fc1_ograd[gpu1], fc2_wgrad[gpu1] =
+     FullcBackward(fc2_ograd[gpu1] , fc2_weight[gpu1])
+     _, fc1_wgrad[gpu1] = FullcBackward(fc1_ograd[gpu1] , fc1_weight[gpu1])
+# aggregate gradient and update
+fc1_wgrad[cpu]  = fc1_wgrad[gpu0] + fc1_wgrad[gpu1]
+fc2_wgrad[cpu]  = fc2_wgrad[gpu0] + fc2_wgrad[gpu1]
+fc1_weight[cpu] -= lr *  fc1_wgrad[cpu]
+fc2_weight[cpu] -= lr *  fc2_wgrad[cpu]
+fc1_weight[cpu].copyto(fc1_weight[gpu0] , fc1_weight[gpu1])
+fc2_weight[cpu].copyto(fc2_weight[gpu0] , fc2_weight[gpu1])
+</code></pre>
+<p>在这个程序中， data 0 到 50 复制到 GPU 0，data 50 到 100 复制到 GPU 1。计算出来的梯度在 CPU 中被合并起来之后做一个简单的 SGD 更新，再将更新了的权重复制回每个 GPU。这是个用顺序方式写并行程序的常用方法。以下依赖图展示了这个计算是如何并行化的：</p>
+<p><img src="./dep_net.png" alt="dep_net"></p>
+<p>说明：</p>
+<ul>
+<li>在我们得到一层的梯度之后马上就可复制到 CPU</li>
+<li>权重被更新之后马上就可以复制回 GPU</li>
+<li>在前向计算中，我们需要依赖于前一个迭代的 fc1_weight[cpu]：fc1_weight[cpu].copyto(fc1_weight[gpu0], fc1_weight[gpu1])</li>
+<li>对于第 k 层，在反向传播和下一次的正向计算之间有一个延迟，我们可以利用这个延迟来同步权重，来和其它计算并行。</li>
+</ul>
+<p>这个方法被用在支持多 GPU 的深度学习库上，比如 CXXNet。要点是使计算和同步（通信）并发进行。然而，这并不是很简单，因为复制操作需要在一层的反向传播完成之后马上触发，之后复制操作又会触发更新操作。</p>
+<p>依赖引擎能够在使用多线程和依赖跟踪来调度这些操作。</p>
+<h2 id="设计一个通用的依赖引擎"><a href="#设计一个通用的依赖引擎" class="headerlink" title="设计一个通用的依赖引擎"></a>设计一个通用的依赖引擎</h2><p>我们希望你相信依赖引擎对于在多个设备上扩展深度学习程序是有用的。现在让我们讨论一下该如何给依赖引擎设计和实现一个通用的接口。这个解决方案不是唯一的设计。只是我们认为在多数情况下它能很好地工作。</p>
+<p>这里先给出一个依赖引擎的设计目标的概要：</p>
+<ul>
+<li>引擎不应该依赖于知道要执行的操作是什么，这样用户可以定义任何操作。</li>
+<li>引擎不应该限制它能够调度的对象<ul>
+<li>我们应该能够调度 GPU 和 CPU 内存的依赖。</li>
+<li>例如我们应该能够跟踪随机数的依赖关系。</li>
+</ul>
+</li>
+</ul>
+<p>以下 Python 代码提供了一个可能帮我们达到目标的引擎接口。注意真实的实现可能是用 C++ 完成的。</p>
+<pre><code class="python">class DepEngine(object):
+    def new_variable():
+        &quot;&quot;&quot;Return a new variable tag
+        Returns
+        -------
+        vtag : Variable Tag
+            The token of the engine to represent dependencies.
+        &quot;&quot;&quot;
+        pass
+
+    def push(exec_func, read_vars, mutate_vars):
+        &quot;&quot;&quot;Push the operation to the engine.
+
+        Parameters
+        ----------
+        exec_func : callable
+            The real operation to be performed.
+
+        read_vars : list of Variable Tags
+            The list of variables this operation will read from.
+
+        mutate_vars : list of Variable Tags
+            The list of variables this operation will mutate.
+        &quot;&quot;&quot;
+        pass
+</code></pre>
+<p>因为我们不能对要调度的对象类型做任何假设，我们需要让用户来每个对象分配一个虚拟的标签，来标记我们需要调度什么。所以，最开始，用户可以分配标签，然后将它附在每个需要调度的对象上。</p>
+<p><img src="./tag_var.png" alt="tag_var"></p>
+<p>然后用户可以调用 push 来让引擎执行函数。用户还需要使用 read_vars 和 write_vars 来指定操作的依赖关系：</p>
+<ul>
+<li>read_vars 是用来指定只读变量的标签，计算过程中不会改变变量的状态。</li>
+<li>mutate_vars 是可变变量的标签，代表在计算过程中内部状态会发生变化。</li>
+</ul>
+<p><img src="./push_var.png" alt="push_var"></p>
+<p>上图示意了如何将操作 B = A + 1 推送到依赖引擎。B.data 和 A.data 是分配的空间。注意依赖引擎只关心变量的标签。任何的函数都可以被处理。对于我们想要调度的操作和资源来说，这个接口是通用的。</p>
+<p>让我们看看引擎内部是如何根据标签来工作的，考虑以下代码：</p>
+<pre><code class="python">B = A + 1
+C = A + 2
+A = C * 2
+D = A + 3
+</code></pre>
+<p>第一行读取变量 A，更新变量 B。第二行读取变量 A，更新 C。等等。</p>
+<p>引擎对每个变量维护一个队列，如以下动图所示。绿色代表读操作，红色代表写操作。</p>
+<p><img src="./dep_queue.gif" alt="dep_queue"></p>
+<p>创建这些队列时，引擎看到在 A 的队列头的两个绿色方块可以并行操作，因为它们都是读操作，不会互相冲突。下图展示了这一点。</p>
+<p><img src="./dep_parallel.png" alt="dep_parallel"></p>
+<p>这个调度方法的很酷的一点就是它不仅限于调度数字运算。因为引擎中要调度的所有东西都用标签来表示，所以它可以调度任何东西。</p>
+<p><img src="./push_seq.png" alt="push_seq"></p>
+<p>译者注：上图最后两行似乎有点问题。最后两行的 mutate_vars 中应该有 B.var 和 C.var。</p>
+<h3 id="将现有代码移植到依赖引擎"><a href="#将现有代码移植到依赖引擎" class="headerlink" title="将现有代码移植到依赖引擎"></a>将现有代码移植到依赖引擎</h3><p>因为通用接口不控制像内存分配和该执行哪个操作这些事情，多数现有代码可以按照以下两个步骤来用引擎进行调度：</p>
+<ol>
+<li>为内存块或者 PRNGS 这些资源分配变量标签</li>
+<li>像调用原先的代码那样把操作推送到调度引擎，并且将与各个资源相对应的标签正确地放入 read_vars 和 mutate_vars。</li>
+</ol>
+<h2 id="实现通用的依赖引擎"><a href="#实现通用的依赖引擎" class="headerlink" title="实现通用的依赖引擎"></a>实现通用的依赖引擎</h2><p>我们已经描述了通用的引擎接口，和它如何被用于调度不同的操作。在这一节中，我们从较高的层次讨论一下如何实现这样一个引擎。</p>
+<p>一般的思路是只羊的：</p>
+<ul>
+<li>对每一个变量标签，用一个队列来跟踪所有待执行的依赖。</li>
+<li>对每一个操作，使用一个计数器来跟踪多少个依赖还没有完成。</li>
+<li>当操作完成时，更新队列和依赖计数器，然后调度新的操作。</li>
+</ul>
+<p>下图展示了这个调度算法，可能能让你更好地理解。</p>
+<p><img src="./engine_queue_step.png" alt="engine_queue_step.png"></p>
+<p>下面，我们展示了另一个和随机数生成相关的例子。</p>
+<p><img src="./engine_queue_rand.png" alt="engine_queue_rand.png"></p>
+<p>译者注：类似于拓扑排序，但是允许无相互依赖的操作并行。</p>
+<p>可以看到，这个算法的目的是更新待执行操作队列，并且当操作完成时，做出正确的状态转移。注意在做状态转移时应当注意线程安全性。</p>
+<h3 id="运行策略的单独的依赖跟踪"><a href="#运行策略的单独的依赖跟踪" class="headerlink" title="运行策略的单独的依赖跟踪"></a>运行策略的单独的依赖跟踪</h3><p>如果你仔细阅读，就可能注意到前一节仅仅展示了算法如何决定操作何时被执行。我们没有展示如何实际去执行一个操作。在实践中，可能有许多不同的策略。比如，我们可以使用一个全局的线程池来运行所有操作，或者对每个设备有一个专门的线程来执行。</p>
+<p>运行策略通常和依赖跟踪策略是相互独立的，能够被独立出来，作为一个单独的模块或是基本的依赖跟踪模块的一个虚拟接口。开发一个对所有操作和调度都公平的运行策略，本身就是一个很有趣的系统问题。</p>
+<h2 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h2><p>我们在这篇文章中讨论的设计并不是依赖跟踪问题的唯一解决方法。它只是个例子展示我们如何解决这个问题。可以确定，有些设计上的选择是需要讨论的，我们将在这一节讨论其中的一些。</p>
+<h3 id="动态和静态"><a href="#动态和静态" class="headerlink" title="动态和静态"></a>动态和静态</h3><p>某种意义上来讲，我们这里讨论的依赖引擎接口是动态的，因为用户能够一个一个地推送操作到引擎，而不是事先定义好整个依赖图（静态）。动态调度比静态声明的要有更多数据结构上的开销。然而，动态调度更灵活，比如支持自动对命令式程序或命令式符号式混合程序进行并行化。你也可以给接口增加一些预先定义的操作来重用数据结构。</p>
+<h3 id="可变和不可变"><a href="#可变和不可变" class="headerlink" title="可变和不可变"></a>可变和不可变</h3><p>这篇文章中讲的通用依赖引擎接口支持对更新操作的显式的调度。在典型的数据流引擎中，数据通常是不可变的。不可变数据有很多好处。例如，不可变数据可以更容易并行化，并且可以在分布式环境中更好地容错（通过重新计算）。</p>
+<p>然而，不可变数据有以下挑战：</p>
+<ul>
+<li>对资源竞争问题更难调度，比如当处理随机数和删除资源时。</li>
+<li>调度引擎需要管理资源（内存，随机数）来避免冲突。而且更难接入用户分配的控件，等等。</li>
+<li>不能有预先分配的静态内存，因为通常的模式是写入一个预分配的层的空间，这在不可变数据的情况下不支持的。</li>
+</ul>
+<p>允许可变数据可以减少这些问题。</p>
+
+</div>
+
+
+        <!-- 右边栏 -->
+<div class="col-md-2">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">标签</h3>
+        </div>
+
+        <div class="panel-body">
+            
+            
+                <a href="/tags/akka/"> akka </a>
+            
+                <a href="/tags/architecture/"> architecture </a>
+            
+                <a href="/tags/deeplearning/"> deeplearning </a>
+            
+                <a href="/tags/haskell/"> haskell </a>
+            
+                <a href="/tags/java/"> java </a>
+            
+                <a href="/tags/linux/"> linux </a>
+            
+                <a href="/tags/math/"> math </a>
+            
+                <a href="/tags/monad/"> monad </a>
+            
+                <a href="/tags/mxnet/"> mxnet </a>
+            
+                <a href="/tags/nginx/"> nginx </a>
+            
+                <a href="/tags/php/"> php </a>
+            
+                <a href="/tags/probability/"> probability </a>
+            
+                <a href="/tags/python/"> python </a>
+            
+                <a href="/tags/pytorch/"> pytorch </a>
+            
+                <a href="/tags/statistics/"> statistics </a>
+            
+        </div>
+    </div>
+
+    <!-- 创建 archive list -->
+    
+
+    <!-- 归档 -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">归档</h3>
+        </div>
+        <div class="panel-body archive-list">
+            
+                <a href="/archives/2020/01"> 2020 Jan </a>
+            
+                <a href="/archives/2017/11"> 2017 Nov </a>
+            
+                <a href="/archives/2017/09"> 2017 Sep </a>
+            
+                <a href="/archives/2017/06"> 2017 Jun </a>
+            
+                <a href="/archives/2017/02"> 2017 Feb </a>
+            
+                <a href="/archives/2016/11"> 2016 Nov </a>
+            
+                <a href="/archives/2016/10"> 2016 Oct </a>
+            
+                <a href="/archives/2015/03"> 2015 Mar </a>
+            
+                <a href="/archives/2014/10"> 2014 Oct </a>
+            
+                <a href="/archives/2013/07"> 2013 Jul </a>
+            
+                <a href="/archives/2013/06"> 2013 Jun </a>
+            
+                <a href="/archives/2013/05"> 2013 May </a>
+            
+                <a href="/archives/2009/01"> 2009 Jan </a>
+            
+        </div>
+    </div>
+
+    <!-- <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">最新文章</h3>
+        </div>
+        <div class="panel-body">
+            <div>离散型概率分布</div>
+            <div>概率论基础公式</div>
+            <div>在Nginx上配置PHP</div>
+        </div>
+    </div> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+    </body>
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/material.js"></script>
+    <script src="/js/ripples.js"></script>
+    <script type="text/javascript">
+        $.material.init();
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2853d265112c92ccbe9cea1dcd4a4b69";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</html>

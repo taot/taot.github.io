@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.9.0">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+        <title>Dive into Deep</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-material-design.css" rel="stylesheet">
+        <link href="/css/ripples.css" rel="stylesheet">
+        <link href="/css/index.css" rel="stylesheet"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </head>
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- 导航栏 -->
+        <div class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Dive into Deep</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input type="text" class="form-control col-sm-8" placeholder="Search">
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/archives">归档</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 内容 -->
+        <div class="col-md-8 col-md-offset-1">
+    <h3>Some Thoughs on IAAS and PAAS</h3>
+    <p>Recently, I am looking for the techniques for the company’s future<br>PAAS platform, I’ve been focused on WS2, but also browsed some other<br>products.</p>
+<p>Here’s some of my thoughts of IAAS, PAAS and WSO2.</p>
+<a id="more"></a>
+<h3 id="IAAS-vs-PAAS"><a href="#IAAS-vs-PAAS" class="headerlink" title="IAAS vs PAAS"></a>IAAS vs PAAS</h3><p>IAAS (Infrastructure As A Service) provides IT infrastructures to<br>those who need them. IT infrastructures mainly include hosts (virtual<br>machines), network, operating system, disk storage, etc. It might also<br>provide some facilities for deploying and managing software<br>installation and lifecycle. For example, OpenStack provide the core<br>functionality of creatings, managing and migrating virtual machines,<br>and some other functionalities such as cloud storage, virtual LAN,<br>through plugins. (The functionalities of OpenStack are heard from a<br>colleage, haven’t confirmed them myself, but you get the idea). To<br>manage the softwares, you can use managing tools like Chef or Puppet<br>etc.</p>
+<p>As for PAAS (Platform As A Service), I’m not quite sure where it<br>stands, and whether we need it or not. PAAS usually provide an SDK, on<br>which user can develop applications, like Google App Engine. Maybe one<br>of the important feature is multi-tenancy, or whatever you call it,<br>the idea is to be able to run many applications from many users on one<br>virtual machine.</p>
+<p>Here’s an article from web<br><a href="http://www.it.com.cn/server/news/2010/07/12/08/840403.html" target="_blank" rel="noopener">http://www.it.com.cn/server/news/2010/07/12/08/840403.html</a>, comparing<br>PAAS and IAAS from seven aspects.</p>
+<p>So which does our company need? In short term, I think IAAS is good<br>enough. Low learning curve, familiar development model and development<br>environment, mature techniques from web industry, so IAAS is a<br>suitable choice for our current situation. In the long run, as our<br>business goes to PAAS phase, we will need a PAAS platform.</p>
+<h3 id="What-do-we-need-from-a-PAAS-platform"><a href="#What-do-we-need-from-a-PAAS-platform" class="headerlink" title="What do we need from a PAAS platform?"></a>What do we need from a PAAS platform?</h3><h4 id="Multi-tenancy"><a href="#Multi-tenancy" class="headerlink" title="Multi-tenancy"></a>Multi-tenancy</h4><p>By definition, multi-tenancy means a single instance of software runs<br>on a server, serving multiple client organizations (tenants). It’s<br>contrasted with multi-instance architecture. The good thing about<br>multi-tenancy is the hardware utilization rate would be much<br>higher.</p>
+<p>I don’t think we need multi-tenancy on PAAS level currently. I’m not<br>saying we don’t need it, but not on the PAAS level, and right now. Our<br>applications should know the multi-tenancy by itself, even if PAAS<br>supports multi-tenancy, our apps still would have to know about the<br>tenants.</p>
+<h4 id="API-Management"><a href="#API-Management" class="headerlink" title="API Management"></a>API Management</h4><p>As is multi-tenancy, API management is not urgent either. We provide<br>SAAS first, and later we can move to PAAS. On the way to PAAS, we will<br>make mistakes, gain experience, and find other better solutions. And<br>maybe the private PAAS platform will evolve to better meet our<br>requirements.</p>
+<h4 id="Auto-Scaling"><a href="#Auto-Scaling" class="headerlink" title="Auto Scaling"></a>Auto Scaling</h4><p>This capability is definitely required. We need to be able to<br>automatically scale out when the load is high. And the scale-out<br>should be able to happend on both virtual machine level, and on<br>application level, which gives us a challenge.</p>
+<h4 id="Pricing"><a href="#Pricing" class="headerlink" title="Pricing"></a>Pricing</h4><p>Not urgent for now, but needed later as explained above. Xu Chen’s<br>idea is that we don’t even need pricing functionality from PAAS<br>platform. In his mind, we can use logs as a way to calculate the<br>price. While I am not sure about that.</p>
+<h4 id="Monitoring"><a href="#Monitoring" class="headerlink" title="Monitoring"></a>Monitoring</h4><p>We need this. We need the ability to see the CPU usage, memory usage,<br>and disk usage of the virtual machines (and the physical<br>machines). Well, those metrics should be provided by the IAAS<br>platform. PAAS platform should provide monitoring on application<br>level, such as the CPU usage, memory usage, and all kinds of stuff of<br>applications.</p>
+<h4 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h4><p>There are other functionalities that PAAS platform could offer, and of<br>course there will be many requirements coming from our development.</p>
+
+</div>
+
+
+        <!-- 右边栏 -->
+<div class="col-md-2">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">标签</h3>
+        </div>
+
+        <div class="panel-body">
+            
+            
+                <a href="/tags/akka/"> akka </a>
+            
+                <a href="/tags/architecture/"> architecture </a>
+            
+                <a href="/tags/deeplearning/"> deeplearning </a>
+            
+                <a href="/tags/haskell/"> haskell </a>
+            
+                <a href="/tags/java/"> java </a>
+            
+                <a href="/tags/linux/"> linux </a>
+            
+                <a href="/tags/math/"> math </a>
+            
+                <a href="/tags/monad/"> monad </a>
+            
+                <a href="/tags/mxnet/"> mxnet </a>
+            
+                <a href="/tags/nginx/"> nginx </a>
+            
+                <a href="/tags/php/"> php </a>
+            
+                <a href="/tags/probability/"> probability </a>
+            
+                <a href="/tags/python/"> python </a>
+            
+                <a href="/tags/pytorch/"> pytorch </a>
+            
+                <a href="/tags/statistics/"> statistics </a>
+            
+        </div>
+    </div>
+
+    <!-- 创建 archive list -->
+    
+
+    <!-- 归档 -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">归档</h3>
+        </div>
+        <div class="panel-body archive-list">
+            
+                <a href="/archives/2020/01"> 2020 Jan </a>
+            
+                <a href="/archives/2017/11"> 2017 Nov </a>
+            
+                <a href="/archives/2017/09"> 2017 Sep </a>
+            
+                <a href="/archives/2017/06"> 2017 Jun </a>
+            
+                <a href="/archives/2017/02"> 2017 Feb </a>
+            
+                <a href="/archives/2016/11"> 2016 Nov </a>
+            
+                <a href="/archives/2016/10"> 2016 Oct </a>
+            
+                <a href="/archives/2015/03"> 2015 Mar </a>
+            
+                <a href="/archives/2014/10"> 2014 Oct </a>
+            
+                <a href="/archives/2013/07"> 2013 Jul </a>
+            
+                <a href="/archives/2013/06"> 2013 Jun </a>
+            
+                <a href="/archives/2013/05"> 2013 May </a>
+            
+                <a href="/archives/2009/01"> 2009 Jan </a>
+            
+        </div>
+    </div>
+
+    <!-- <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">最新文章</h3>
+        </div>
+        <div class="panel-body">
+            <div>离散型概率分布</div>
+            <div>概率论基础公式</div>
+            <div>在Nginx上配置PHP</div>
+        </div>
+    </div> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+    </body>
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/material.js"></script>
+    <script src="/js/ripples.js"></script>
+    <script type="text/javascript">
+        $.material.init();
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2853d265112c92ccbe9cea1dcd4a4b69";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</html>

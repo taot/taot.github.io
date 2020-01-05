@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.9.0">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+        <title>Dive into Deep</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/bootstrap-material-design.css" rel="stylesheet">
+        <link href="/css/ripples.css" rel="stylesheet">
+        <link href="/css/index.css" rel="stylesheet"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </head>
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- 导航栏 -->
+        <div class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Dive into Deep</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input type="text" class="form-control col-sm-8" placeholder="Search">
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/archives">归档</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 内容 -->
+        <div class="col-md-8 col-md-offset-1">
+    <h3>Deep Learning Environment with Arch Linux and PyTorch</h3>
+    <p>终于组装了一台电脑用于学习深度学习。折腾了几天，大体把 Arch Linux 和 PyTorch 装上了，不过还没有比较完整地验证是否安装正确。在这里大概地记录一下安装步骤，供以后重装系统时参考。</p>
+<a id="more"></a>
+<h2 id="电脑配置"><a href="#电脑配置" class="headerlink" title="电脑配置"></a>电脑配置</h2><ol>
+<li>CPU: Intel Core i7-7700K 酷睿四核 4.20GHz</li>
+<li>内存: 美商海盗船 (USCORSAIR) 复仇者 LPX DDR4 3000 16GB x 2</li>
+<li>硬盘: 三星 (SAMSUN) 850 EVO 500G SATA3 固态硬盘</li>
+<li>显卡: 微星 MSI GTX 1080 Ti AERO 11GB</li>
+<li>主板: 华硕（ASUS）PRIME Z270-A 主板</li>
+<li>机箱: 爱国者（aigo） 黑曼巴 黑色 主动式静音机箱</li>
+<li>电源: EVGA 额定750w 750 G2 电源 全模组</li>
+<li>风扇: 九州风神（DEEPCOOL） 玄冰400 CPU 散热器</li>
+</ol>
+<h2 id="制作-USB-安装盘"><a href="#制作-USB-安装盘" class="headerlink" title="制作 USB 安装盘"></a>制作 USB 安装盘</h2><p>从 <a href="https://www.archlinux.org/" target="_blank" rel="noopener">https://www.archlinux.org/</a> 下载 Arch Linux 的安装盘 ISO 文件，使用 Rufus <a href="https://rufus.akeo.ie/" target="_blank" rel="noopener">https://rufus.akeo.ie/</a> 制作 USB 安装盘。</p>
+<p>分区方案没有仔细研究，就选用默认的 “MBR 分区方案 用于 BIOS 或 UEFI 的计算机” 即可，只要能够引导起启动盘就行，对安装之后的系统应该没有影响。文件系统和簇大小都选择默认（FAT32 和 16K 字节）。</p>
+<p><img src="./rufus_main.png" alt="rufus_main"></p>
+<p>选取 ISO 并点击开始之后，Rufus 会问你选用 ISO 镜像模式还是使用 DD 镜像模式写入，选择 DD 镜像。如果选择 ISO 镜像可能会有启动盘无法引导的问题。安装的时候还遇到过因为 U 盘有坏道安装盘无法正常工作的情况，换了一个好的 U 盘后问题解决。</p>
+<p><img src="./rufus_mode.png" alt="rufus_mode"></p>
+<h2 id="安装-Arch-Linux"><a href="#安装-Arch-Linux" class="headerlink" title="安装 Arch Linux"></a>安装 Arch Linux</h2><p>安装 Arch Linux 的过程参考 <a href="https://wiki.archlinux.org/index.php/Installation_guide。Arch" target="_blank" rel="noopener">https://wiki.archlinux.org/index.php/Installation_guide。Arch</a> Linux 的 Wiki 写的非常详细，有什么问题基本都可以找到，讲解的也比较细致，非常适合学习 Linux。</p>
+<h3 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h3><p>使用 gdisk 分区。我的分区方案如下：</p>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>File System</th>
+<th>Mount Point</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/dev/sda1</td>
+<td>fat32</td>
+<td>/boot</td>
+</tr>
+<tr>
+<td>/dev/sda2</td>
+<td>ext4</td>
+<td>/</td>
+</tr>
+<tr>
+<td>/dev/sda3</td>
+<td>ext4</td>
+<td>/home</td>
+</tr>
+</tbody>
+</table>
+<p>然后格式化：</p>
+<pre><code class="bash">mkfs.fat -F32 /dev/sda1
+mkfs.ext4 /dev/sda2
+mkfs.ext4 /dev/sda3
+</code></pre>
+<h3 id="安装基本系统"><a href="#安装基本系统" class="headerlink" title="安装基本系统"></a>安装基本系统</h3><pre><code># 挂载分区
+mount /dev/sda2 /mnt/
+mkdir /mnt/boot /mnt/home
+mount /dev/sda1 /mnt/boot
+mount /dev/sda2 /mnt/home
+
+# 安装基础软件包
+pacstrap /mnt base base-devel vim net-tools sudo dialog iw wireless_tools wpa_supplicant networkmanager efivar
+
+# 生成 fstab
+genfstab -U /mnt &gt;&gt; /mnt/etc/fstab
+
+# 更改根目录环境，从安装盘环境切换到硬盘上系统的环境
+arch-chroot /mnt
+</code></pre><h3 id="配置系统"><a href="#配置系统" class="headerlink" title="配置系统"></a>配置系统</h3><p>一些基本的配置：</p>
+<pre><code># 配置时区
+ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+# 用系统时钟设置硬件时钟
+hwclock --systohc
+
+# 生成 locale
+# 编辑 /etc/locale.gen，需要哪些 locale 就去掉它们的注释
+locale-gen
+</code></pre><p>新建 /etc/locale.conf，内容如下：</p>
+<pre><code># /etc/locale.conf
+LANG=en_US.UTF-8
+</code></pre><p>根据需要修改 /etc/hostname 和 /etc/hosts 文件。</p>
+<p>如果需要生成 initramfs，运行 mkinitcpio。通常不需要这么做，因为 pacstrap 已经帮你生成了 initramfs。</p>
+<pre><code>mkinitcpio -p linux
+</code></pre><h3 id="安装-Boot-Loader"><a href="#安装-Boot-Loader" class="headerlink" title="安装 Boot Loader"></a>安装 Boot Loader</h3><p>之前试验过各种 Boot Loader，包括 GRUB、Syslinux，最终选用了 systemd-boot，有 EFI 支持，安装起来也比较方便，和 systemd 兼容性也好。</p>
+<p>首先验证你的 EFI 变量是正常的:</p>
+<p>再安装 systemd-boot</p>
+<pre><code>bootctl --path=/boot install
+</code></pre><p>编辑 /boot/loader/loader.conf：</p>
+<pre><code># /boot/loader/loader.conf
+default arch
+timeout 3
+editor 0
+</code></pre><p>将 /usr/share/systemd/bootctl/arch.conf 复制到 /boot/loader/entries/arch.conf，并且用 blkid 命令找到 root 分区的 PARTUUID:</p>
+<pre><code>blkid -s PARTUUID -o value /dev/sda2
+</code></pre><p>将 PARTUUID 填到 /boot/loader/entries/arch.conf 中相应的位置，以下为我的 arch.conf：</p>
+<pre><code># /boot/loader/entries/arch.conf
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /initramfs-linux.img
+options root=PARTUUID=6aa5e0aa-ce1b-4664-a047-9c594322f804 rootfstype=ext4 add_efi_memmap
+initrd /intel-ucode.img
+</code></pre><p>注意其中的 initrd 这一行开启 intel microcode update，如果你使用 Intel CPU，建议开启这个特性。当然这里需要安装 intel-ucode 包。</p>
+<pre><code>pacman -S intel-ucode
+</code></pre><h3 id="完成安装，退出重启"><a href="#完成安装，退出重启" class="headerlink" title="完成安装，退出重启"></a>完成安装，退出重启</h3><pre><code># Exit chroot
+exit
+umount -R /mnt
+shutdown -r now
+</code></pre><h3 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h3><p>创建一个新用户，并且设置密码。注意这里将用户添加到 wheel 组里，以便可以 sudo。</p>
+<pre><code>useradd -m -g user -G wheel taot
+passwd taot
+</code></pre><p>修改 /etc/sudoers (去掉下面这行的注释):</p>
+<pre><code>## Uncomment to allow members of group wheel to execute any command
+# %wheel ALL=(ALL) ALL
+</code></pre><h2 id="安装-Mate-桌面"><a href="#安装-Mate-桌面" class="headerlink" title="安装 Mate 桌面"></a>安装 Mate 桌面</h2><p>安装 nvidia 驱动 (不确定这步是否需要。因为之前的笔记中记了，这里暂且写上)</p>
+<pre><code>pacman -S nvidia mesa-libgl
+</code></pre><p>安装 Mate 桌面</p>
+<pre><code>pacman -S mate mate-extra
+</code></pre><p>安装 gdm，enable 之后重启，开机的时候就有图形化登录界面了。gdm 虽然比较大，但是不需要配置，安装上后只要 enable 以下就可以用。</p>
+<pre><code>pacman -S gdm
+systemctl enable gdm
+</code></pre><p>安装 yaourt。yaourt 是一个让你可以简便地安装 AUR 包的工具，具体步骤在这里就不写了。</p>
+<p>安装输入法:</p>
+<pre><code>pacman -S fcitx-im
+yaourt -S fcitx-sogoupinyin
+</code></pre><h2 id="安装-Nvidia-驱动-CUDA-和-cuDNN"><a href="#安装-Nvidia-驱动-CUDA-和-cuDNN" class="headerlink" title="安装 Nvidia 驱动, CUDA 和 cuDNN"></a>安装 Nvidia 驱动, CUDA 和 cuDNN</h2><p><del>下载 <a href="http://us.download.nvidia.com/XFree86/Linux-x86_64/384.98/NVIDIA-Linux-x86_64-384.98.run" target="_blank" rel="noopener">Nvidia 官方提供的驱动</a>，安装后重启。注意不要使用安装程序生成的 Xorg.conf，可能会造成无法进入 X 的问题。</del></p>
+<p>2017-11-14 更新：NVidia 官方驱动在 pacman 更新 Linux 内核后无法工作，可能需要重新装一遍驱动，没有测试。直接装了 pacman 上的 nvidia-dkms 包，可以正常工作。</p>
+<p>安装 CUDA 和 cuDNN。当前 Arch Linux 的 rolling release （2017-11-05）中是 CUDA 9， 和 cuDNN 7，装了 PyTorch 之后似乎是好用的（简单试验了一下，未做进一步验证，可能后面会发现问题）。本来打算在 Nvidia 官网上下载 CUDA 8 和 cuDNN 6，无奈 CUDA 8 总是下载到 80% 左右就突然挂了。</p>
+<pre><code>pacman -S cuda cudnn
+</code></pre><h2 id="安装-PyTorch"><a href="#安装-PyTorch" class="headerlink" title="安装 PyTorch"></a>安装 PyTorch</h2><p>安装 miniconda。从清华大学开源软件镜像站 <a href="https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/</a> 下载最新版 Python 3 的 Miniconda，并按照步骤说明安装。</p>
+<p>再安装 PyTorch (<a href="http://pytorch.org" target="_blank" rel="noopener">http://pytorch.org</a>)</p>
+<pre><code>conda install pytorch torchvision cuda80 -c soumith
+</code></pre><p>如果安装出现问题，则可以删掉 miniconda, 再重新安装 miniconda 和 PyTorch。</p>
+<p>简单测试一下:</p>
+<pre><code class="python">import torch
+import numpy as np
+a = torch.FloatTensor(1).cuda()
+b = torch.FloatTensor(1).cuda()
+a + b
+</code></pre>
+
+</div>
+
+
+        <!-- 右边栏 -->
+<div class="col-md-2">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">标签</h3>
+        </div>
+
+        <div class="panel-body">
+            
+            
+                <a href="/tags/akka/"> akka </a>
+            
+                <a href="/tags/architecture/"> architecture </a>
+            
+                <a href="/tags/deeplearning/"> deeplearning </a>
+            
+                <a href="/tags/haskell/"> haskell </a>
+            
+                <a href="/tags/java/"> java </a>
+            
+                <a href="/tags/linux/"> linux </a>
+            
+                <a href="/tags/math/"> math </a>
+            
+                <a href="/tags/monad/"> monad </a>
+            
+                <a href="/tags/mxnet/"> mxnet </a>
+            
+                <a href="/tags/nginx/"> nginx </a>
+            
+                <a href="/tags/php/"> php </a>
+            
+                <a href="/tags/probability/"> probability </a>
+            
+                <a href="/tags/python/"> python </a>
+            
+                <a href="/tags/pytorch/"> pytorch </a>
+            
+                <a href="/tags/statistics/"> statistics </a>
+            
+        </div>
+    </div>
+
+    <!-- 创建 archive list -->
+    
+
+    <!-- 归档 -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">归档</h3>
+        </div>
+        <div class="panel-body archive-list">
+            
+                <a href="/archives/2020/01"> 2020 Jan </a>
+            
+                <a href="/archives/2017/11"> 2017 Nov </a>
+            
+                <a href="/archives/2017/09"> 2017 Sep </a>
+            
+                <a href="/archives/2017/06"> 2017 Jun </a>
+            
+                <a href="/archives/2017/02"> 2017 Feb </a>
+            
+                <a href="/archives/2016/11"> 2016 Nov </a>
+            
+                <a href="/archives/2016/10"> 2016 Oct </a>
+            
+                <a href="/archives/2015/03"> 2015 Mar </a>
+            
+                <a href="/archives/2014/10"> 2014 Oct </a>
+            
+                <a href="/archives/2013/07"> 2013 Jul </a>
+            
+                <a href="/archives/2013/06"> 2013 Jun </a>
+            
+                <a href="/archives/2013/05"> 2013 May </a>
+            
+                <a href="/archives/2009/01"> 2009 Jan </a>
+            
+        </div>
+    </div>
+
+    <!-- <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">最新文章</h3>
+        </div>
+        <div class="panel-body">
+            <div>离散型概率分布</div>
+            <div>概率论基础公式</div>
+            <div>在Nginx上配置PHP</div>
+        </div>
+    </div> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+    </body>
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/material.js"></script>
+    <script src="/js/ripples.js"></script>
+    <script type="text/javascript">
+        $.material.init();
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2853d265112c92ccbe9cea1dcd4a4b69";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</html>
