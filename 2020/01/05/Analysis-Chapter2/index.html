@@ -31,8 +31,37 @@
 
         <!-- 内容 -->
         <div class="col-md-8 col-md-offset-1">
-    <h3></h3>
-    
+    <h3>Axioms in Analysis Chapter 2 - Natural Numbers</h3>
+    <h1 id="2-1-The-Peano-axioms"><a href="#2-1-The-Peano-axioms" class="headerlink" title="2.1 The Peano axioms"></a>2.1 The Peano axioms</h1><p><strong>Axiom 2.1.</strong> <em>$0$ is a natural number.</em></p>
+<p><strong>Axiom 2.2.</strong> <em>If $n$ is a natural number, then $n\text{++}$ is also a natural number.</em></p>
+<p><strong>Axiom 2.3.</strong> <em>$0$ is not the successor of any natural number; i.e., we have $n \text{++} \ne 0$ for every natural number $n$.</em></p>
+<p><strong>Axiom 2.4.</strong> <em>Different natural numbers must have different successors; i.e., if $n$, $m$ are natural numbers and $n \ne m$, then $n\text{++} \ne m\text{++}$. Equivalently, if $n\text{++} = m\text{++}$, then we must have $n = m$.</em></p>
+<a id="more"></a>
+<p><strong>Axiom 2.5 (Principle of mathematical induction).</strong> <em>Let $P(n)$ be any property pertaining to a natural number $n$. Suppose that $P(0)$ is true, and suppose that whenever $P(n)$ is true, $P(n\text{++})$ is also true. Then $P(n)$ is true for every natural number n.</em></p>
+<p><strong>Proposition 2.1.16 (Recursive definitions).</strong> Suppose for each natural number $n$, we have some function $f_n : N \rightarrow N$ from the natural numbers to the natural numbers. Let $c$ be a natural number. Then we can assign a unique natural number $a_n$ to each natural number $n$, such that $a_0 = c$ and $a_{n++} = f_n(a_n)$ for each natural number $n$.</p>
+<h1 id="2-2-Adittion"><a href="#2-2-Adittion" class="headerlink" title="2.2 Adittion"></a>2.2 Adittion</h1><p><strong>Definition 2.2.1 (Addition of natural numbers).</strong> Let $m$ be a natural number. To add zero to $m$, we define $0 + m := m$. Now suppose inductively that we have defined how to add n to m. Then we can add $n\text{++}$ to $m$ by defining $(n\text{++}) + m := (n + m)\text{++}$.</p>
+<p><strong>Lemma 2.2.2.</strong> For any natural number $n$, $n + 0 = n$.</p>
+<p><strong>Lemma 2.2.3.</strong> For any natural numbers $n$ and $m$, $n + (m\text{++}) = (n + m)\text{++}$.</p>
+<p><strong>Proposition 2.2.4 (Addition is commutative).</strong> For any natural numbers $n$ and $m$, $n + m = m + n$.</p>
+<p><strong>Proposition 2.2.5 (Addition is associative).</strong> For any natural numbers $a$, $b$, $c$, we have $(a + b) + c = a + (b + c)$.</p>
+<p><strong>Proposition 2.2.6 (Cancellation law).</strong> Let $a$, $b$, $c$ be natural numbers such that $a + b = a + c$. Then we have $b = c$.</p>
+<p><strong>Definition 2.2.7 (Positive natural numbers).</strong> A natural number $n$ is said to be <em>positive</em> iff it is not equal to $0$.</p>
+<p><strong>Proposition 2.2.8.</strong> If $a$ is <em>positive</em> and $b$ is a natural number, then $a + b$ is <em>positive</em> (and hence $b + a$ is also).</p>
+<p><strong>Corollary 2.2.9.</strong> If $a$ and $b$ are natural numbers such that $a + b = 0$, then $a = 0$ and $b = 0$.</p>
+<p><strong>Lemma 2.2.10.</strong> Let $a$ be a <em>positive</em> number. Then there exists exactly one natural number $b$ such that $b\text{++} = a$.</p>
+<p><strong>Definition 2.2.11 (Ordering of the natural numbers).</strong> Let $n$ and $m$ be natural numbers. We say that $n$ is <em>greater than or equal</em> to $m$, and write $n \ge m$ or $m \le n$, iff we have $n = m + a$ for some natural number $a$. We say that $n$ is <em>strictly greater than m</em>, and write $n &gt; m$ or $m &lt; n$, iff $n \ge m$ and $n \ne m$.</p>
+<p><strong>Proposition 2.2.13 (Trichotomy of order for natural numbers).</strong> Let $a$ and $b$ be natural numbers. Then exactly on of the following statements is true: $a &lt; b$, $a = b$, or $a &gt; b$.</p>
+<p><strong>Proposition 2.2.14 (Strong principle of induction).</strong> Let $m_0$ be a natural number, and let $P(m)$ be a property pertaining to an arbitrary natural number m. Suppose that for each $m \ge m_0$, we have the following implication: if $P(m’)$ is true for all natural numbers $m_0 \le m’ &lt; m$, then $P(m)$ is also true. (In particular, this means that $P(m_0)$ is true, since in this case the hypothesis is vacuous.) Then we can conclude that $P(m)$ is true for all natural numbers $m \ge m_0$.</p>
+<h1 id="2-3-Multiplication"><a href="#2-3-Multiplication" class="headerlink" title="2.3 Multiplication"></a>2.3 Multiplication</h1><p><strong>Definition 2.3.1 (Multiplication of natural numbers).</strong> Let $m$ be a natural number. To multiply zero to $m$, we define $0 \times m := 0$. Now suppose inductively that we have defined how to multiply $n$ to $m$. Then we can multiply $n\text{++}$ to $m$ by defining $(n\text{++}) \times m := (n \times m) + m$.</p>
+<p><strong>Lemma 2.3.2 (Multiplication is commutative).</strong> Let $n$, $m$ be natural numbers. Then $n \times m = m \times n$.</p>
+<p><strong>Lemma 2.3.3 (Natural numbers have no zero divisors).</strong> Let $n$, $m$ be natural numbers. Then $n \times m = 0$ if and only if at least one of $n$, $m$ is equal to zero. In particular, if $n$ and $m$ are both positive, then $nm$ is also positive.</p>
+<p><strong>Proposition 2.3.4 (Distributive law).</strong> For any natural numbers $a$, $b$, $c$, we have $a(b + c) = ab + ac$ and $(b + c)a = ba + ca$.</p>
+<p><strong>Proposition 2.3.5 (Multiplication is associative).</strong> For any natural numbers $a$, $b$, $c$, we have $(a \times b) \times c = a \times (b \times c)$.</p>
+<p><strong>Proposition 2.3.6 (Multiplication preserves order).</strong> If $a$, $b$ are natural numbers such that $a &lt; b$, and $c$ is positive, then $ac &lt; bc$.</p>
+<p><strong>Corollary 2.3.7 (Cancellation law).</strong> Let $a$, $b$, $c$ be natural numbers such that $ac = bc$ and $c$ is non-zero. Then $a = b$.</p>
+<p><strong>Proposition 2.3.9 (Euclidean algorithm).</strong> Let n be a natural number, and let $q$ be a positive number. Then there exist natural numbers $m$, $r$ such that $0 \le r \lt q$ and $n = mq + r$.</p>
+<p><strong>Definition 2.3.11 (Exponentiation for natural numbers).</strong> Let $m$ be a natural number. To raise $m$ to the power $0$, we define $m^0 := 1$. Now suppose recursively that $m^n$ has been defined for some natural number $n$, then we define $m^{n++} := m^n \times m$.</p>
+
 </div>
 
 
@@ -128,7 +157,24 @@
             <div>在Nginx上配置PHP</div>
         </div>
     </div> -->
-</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
     </body>
