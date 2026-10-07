@@ -16,6 +16,8 @@ hugo new content posts/YYYY/MM/<slug>/index.md   # creates a draft page bundle, 
 hugo server -D                                   # preview with drafts at http://localhost:1313
 ```
 
+The `-D` argument tells `hugo` to build drafts.
+
 Posts go in year/month folders. The URL is the same as the folder, for example `/posts/2026/10/my-topic/`.
 Do not add `_index.md` to the year or month folders.
 
