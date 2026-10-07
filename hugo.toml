@@ -1,0 +1,68 @@
+baseURL = 'https://taot.github.io/'
+locale = 'en-us'
+title = 'Terry Tao — Research Notes'
+theme = 'PaperMod'
+enableGitInfo = true
+enableRobotsTXT = true
+
+[pagination]
+  pagerSize = 10
+
+[params]
+  author = 'Terry Tao'
+  description = 'Research notes on world models, representation learning, and more.'
+  defaultTheme = 'auto'
+  ShowReadingTime = true
+  ShowToc = true
+  TocOpen = false
+  ShowLastMod = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowBreadCrumbs = true
+  ShowRssButtonInSectionTermList = true
+  mainSections = ['posts']
+
+  [params.homeInfoParams]
+    Title = 'Research Notes'
+    Content = 'Articles about my research. Most posts have math, code, and interactive visualizations.'
+
+  [[params.socialIcons]]
+    name = 'github'
+    url = 'https://github.com/taot'
+
+  [[params.socialIcons]]
+    name = 'rss'
+    url = 'index.xml'
+
+[menu]
+  [[menu.main]]
+    name = 'Posts'
+    url = '/posts/'
+    weight = 1
+  [[menu.main]]
+    name = 'Tags'
+    url = '/tags/'
+    weight = 2
+  [[menu.main]]
+    name = 'Archive'
+    url = '/archives/'
+    weight = 3
+  [[menu.main]]
+    name = 'Search'
+    url = '/search/'
+    weight = 4
+
+[frontmatter]
+  lastmod = [':git', 'lastmod', ':default']
+
+[markup]
+  [markup.goldmark.extensions.passthrough]
+    enable = true
+    [markup.goldmark.extensions.passthrough.delimiters]
+      block = [['\[', '\]'], ['$$', '$$']]
+      inline = [['\(', '\)'], ['$', '$']]
+  [markup.highlight]
+    noClasses = false
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']

@@ -1,0 +1,9 @@
+{{- /* Embed an interactive HTML page from static/.
+       Usage: {{< viz src="viz/demo.html" height="700px" title="Demo" >}} */ -}}
+<figure class="viz">
+  <iframe src="{{ .Get "src" | relURL }}"
+          title="{{ .Get "title" | default "Interactive visualization" }}"
+          style="width:100%; height:{{ .Get "height" | default "600px" }}; border:1px solid var(--border); border-radius:8px;"
+          loading="lazy"></iframe>
+  <figcaption><a href="{{ .Get "src" | relURL }}" target="_blank" rel="noopener">Open in a new tab ↗</a></figcaption>
+</figure>
