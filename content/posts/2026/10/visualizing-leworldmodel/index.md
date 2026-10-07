@@ -1,8 +1,8 @@
 ---
-title: 'Understanding LeWorldModel'
+title: 'Visualizing LeWorldModel'
 date: 2026-10-07
 draft: true
-tags: ['world-model', 'jepa', 'visualization']
+tags: ['note', 'world-model', 'jepa', 'visualization']
 summary: 'Step through one training step of LeWorldModel, from pixels to the total loss, and see the shape of every tensor.'
 ShowToc: false
 ---
