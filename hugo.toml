@@ -1,6 +1,6 @@
 baseURL = 'https://taot.github.io/'
 locale = 'en-us'
-title = 'Terry Tao — Research Notes'
+title = "Terry's Latent Space"
 theme = 'PaperMod'
 enableGitInfo = true
 enableRobotsTXT = true
@@ -10,7 +10,7 @@ enableRobotsTXT = true
 
 [params]
   author = 'Terry Tao'
-  description = 'Research notes on world models, representation learning, and more.'
+  description = 'Notes on world models, representation learning, and the math under them.'
   defaultTheme = 'auto'
   ShowReadingTime = true
   ShowToc = true
@@ -23,8 +23,8 @@ enableRobotsTXT = true
   mainSections = ['posts']
 
   [params.homeInfoParams]
-    Title = 'Research Notes'
-    Content = 'Articles about my research. Most posts have math, code, and interactive visualizations.'
+    Title = "Terry's Latent Space"
+    Content = 'Notes on world models, representation learning, and the math under them.'
 
   [[params.socialIcons]]
     name = 'github'
