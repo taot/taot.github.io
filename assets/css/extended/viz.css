@@ -1,7 +1,0 @@
-/* Wide embeds: grow past the text column, centered on the page. */
-.post-content figure.viz-wide {
-  width: min(1280px, calc(100vw - 32px));
-  max-width: none;
-  margin-left: 50%;
-  transform: translateX(-50%);
-}

@@ -1,0 +1,6 @@
+/* Wider page than PaperMod's default (720px article, 1024px header).
+   The header uses the same width so the site title lines up with the article. */
+:root {
+  --main-width: 1024px;
+  --nav-width: 1024px;
+}

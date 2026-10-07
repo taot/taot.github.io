@@ -22,7 +22,7 @@ Do not add `_index.md` to the year or month folders.
 Put images and other files for the post in the same folder as `index.md`. Set `draft: false` to publish.
 
 - Math: `$...$` inline, `$$...$$` display. KaTeX renders it at build time.
-- Interactive HTML: put the file in the post folder, then use `{{< viz src="<file>.html" height="700px" wide="true" >}}`.
+- Interactive HTML: put the file in the post folder, then use `{{< viz src="<file>.html" height="700px" >}}`.
 
 ## Check before push
 
