@@ -1,0 +1,7 @@
+{{- /* Open posts from list cards (home, lists, tags, archive, search) in a new tab. */ -}}
+<script>
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a.entry-link');
+    if (a) { a.target = '_blank'; a.rel = 'noopener'; }
+  }, true);
+</script>
