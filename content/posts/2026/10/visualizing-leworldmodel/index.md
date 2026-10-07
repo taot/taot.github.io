@@ -1,7 +1,7 @@
 ---
 title: 'Visualizing LeWorldModel'
 date: 2026-10-07
-draft: true
+draft: false
 categories: ['notes']
 tags: ['world-model', 'jepa', 'visualization']
 summary: 'How LeWorldModel prevents representation collapse with SIGReg, with interactive visualizations of one training step and of the characteristic-function test.'
@@ -14,7 +14,7 @@ ShowToc: false
 
 LeWM is the first JEPA that trains stably end to end from pixels with only two loss terms: a prediction loss and a SIGReg loss. SIGReg (Sketched-Isotropic-Gaussian Regularizer) was first proposed in the [LeJEPA paper](https://arxiv.org/abs/2511.08544) (Balestriero & LeCun, 2025).
 
-SIGReg prevents representation collapse. The encoder of a JEPA maps each observation (a video frame) to a latent embedding. Without a constraint, the encoder can map every frame to the same vector. Then the predicted embedding always equals the target embedding, so the prediction loss is zero, but the embeddings carry no information about the input. Earlier JEPAs prevent this with other methods, such as an EMA target encoder, stop-gradient, a frozen pretrained encoder, or VICReg-style variance and covariance terms. LeWM's loss has only one tunable hyperparameter, the SIGReg weight $\lambda$. PLDM, an earlier end-to-end JEPA, has six.
+The encoder of a JEPA maps each observation (a video frame) to a latent embedding. Without a constraint, the encoder can map every frame to the same vector. Then the predicted embedding always equals the target embedding, so the prediction loss is zero, but the embeddings carry no information about the input. Earlier JEPAs prevent this with other methods, such as an EMA target encoder, stop-gradient, a frozen pretrained encoder, or VICReg-style variance and covariance terms. LeWM prevents representation collapse with SIGReg, therefore LeWM's loss has only one tunable hyperparameter, the SIGReg weight $\lambda$. PLDM, an earlier end-to-end JEPA, has six.
 
 SIGReg projects the batch of embeddings onto random 1-D directions and computes the Epps–Pulley test statistic for each direction. The Epps–Pulley test calculates the empirical characteristic function of the projected samples. (The characteristic function $\varphi(t) = \mathbb{E}[e^{itX}]$ is the Fourier transform of the distribution of $X$.) It then compares this function with the characteristic function of the standard Gaussian, $e^{-t^2/2}$, by calculating the squared L2 distance between them, weighted by $e^{-t^2/2}$ over $t \in [0, 3]$. SIGReg takes the average over all directions. The SIGReg loss, multiplied by $\lambda$, is added to the prediction loss.
 
