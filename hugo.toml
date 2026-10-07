@@ -5,6 +5,11 @@ theme = 'PaperMod'
 enableGitInfo = true
 enableRobotsTXT = true
 
+# Only Markdown is content. Other files in a page bundle (for example
+# interactive .html pages) are published as they are.
+[contentTypes]
+  [contentTypes.'text/markdown']
+
 [pagination]
   pagerSize = 10
 

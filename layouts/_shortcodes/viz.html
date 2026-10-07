@@ -1,9 +1,16 @@
-{{- /* Embed an interactive HTML page from static/.
-       Usage: {{< viz src="viz/demo.html" height="700px" title="Demo" >}} */ -}}
-<figure class="viz">
-  <iframe src="{{ .Get "src" | relURL }}"
+{{- /* Embed an interactive HTML page.
+       The src is a file in the page bundle, or else a path under static/.
+       Usage: {{< viz src="demo.html" height="700px" title="Demo" >}}
+       Add wide="true" to let the frame grow past the text column. */ -}}
+{{- $src := .Get "src" }}
+{{- $url := relURL $src }}
+{{- with .Page.Resources.Get $src }}
+  {{- $url = .RelPermalink }}
+{{- end }}
+<figure class="viz{{ if eq (.Get "wide") "true" }} viz-wide{{ end }}">
+  <iframe src="{{ $url }}"
           title="{{ .Get "title" | default "Interactive visualization" }}"
           style="width:100%; height:{{ .Get "height" | default "600px" }}; border:1px solid var(--border); border-radius:8px;"
           loading="lazy"></iframe>
-  <figcaption><a href="{{ .Get "src" | relURL }}" target="_blank" rel="noopener">Open in a new tab ↗</a></figcaption>
+  <figcaption><a href="{{ $url }}" target="_blank" rel="noopener">Open in a new tab ↗</a></figcaption>
 </figure>
