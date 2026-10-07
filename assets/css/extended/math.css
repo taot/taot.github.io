@@ -1,0 +1,26 @@
+/* KaTeX math in posts. */
+
+/* Inline math: a bit closer to the text size (KaTeX default is 1.21em),
+   and never split a formula across two lines. */
+.post-content .katex {
+  font-size: 1.08em;
+  white-space: nowrap;
+}
+
+/* Tall inline math (exponents like e^{-t^2/2}) touches the line above
+   with the theme's line height. Give only paragraphs with math more room. */
+.post-content :is(p, li):has(.katex) {
+  line-height: 2;
+}
+
+/* Display math: more space around it, and scroll sideways on narrow screens
+   instead of overflowing the page. */
+.post-content .katex-display {
+  margin: 1.4em 0;
+  padding: 0.2em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.post-content .katex-display > .katex {
+  font-size: 1.2em;
+}
