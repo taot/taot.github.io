@@ -21,6 +21,6 @@ Use the buttons in the visualizer to move from step to step. Each step shows the
 
 You can also open the details of each module, for example one ViT block or one conditional block of the predictor.
 
-{{< viz src="lewm_training.html" height="900px" wide="true" title="LeWM training step visualizer" >}}
+{{< viz src="lewm_training_vis.html" height="900px" wide="true" title="LeWM training step visualizer" >}}
 
 The code for the model is in my fork of the official repository: [taot/le-wm](https://github.com/taot/le-wm).
