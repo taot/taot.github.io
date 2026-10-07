@@ -10,7 +10,7 @@ ShowToc: false
 
 {{< figure src="lewm_training_pipeline.png" alt="LeWorldModel Training Pipeline" caption="The LeWorldModel training pipeline. Figure from the [LeWorldModel paper](https://arxiv.org/abs/2603.19312)." >}}
 
-[LeWorldModel (LeWM)](https://arxiv.org/abs/2603.19312) is a Joint-Embedding Predictive Architecture (JEPA) that learns a world model end to end from pixels. This page follows **one training step** through the whole model.
+[LeWorldModel (LeWM)](https://arxiv.org/abs/2603.19312) is a Joint-Embedding Predictive Architecture (JEPA) that learns a world model end to end from pixels. JEPA models learn wold model in latent space and also use it to predict and plan in latent space.
 
 The key contribution of this paper is SIGReg (Sketched-Isotropic-Gaussian Regularizer), (I think SIGReg is actually proposed by a previous paper, I'm just not sure how to phase it here).
 
@@ -30,6 +30,6 @@ You can also open the details of the modules with a plus sign, for example one V
 
 {{< viz src="lewm_training_vis.html" height="900px" title="LeWM training step visualizer" >}}
 
-### SIGReg Visualization
+### SIGReg Character Function Visualization
 
-<Add visualization of SIGReg here>
+{{< viz src="sigreg_cf.html" height="900px" title="SIGReg characteristic function visualizer" >}}
