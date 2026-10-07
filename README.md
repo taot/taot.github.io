@@ -12,14 +12,17 @@ git submodule update --init --recursive
 ## Write a post
 
 ```bash
-hugo new content posts/<slug>/index.md   # creates a draft page bundle
-hugo server -D                           # preview with drafts at http://localhost:1313
+hugo new content posts/YYYY/MM/<slug>/index.md   # creates a draft page bundle, e.g. posts/2026/10/my-topic/index.md
+hugo server -D                                   # preview with drafts at http://localhost:1313
 ```
 
-Put images for the post in the same folder as `index.md`. Set `draft: false` to publish.
+Posts go in year/month folders. The URL is the same as the folder, for example `/posts/2026/10/my-topic/`.
+Do not add `_index.md` to the year or month folders.
+
+Put images and other files for the post in the same folder as `index.md`. Set `draft: false` to publish.
 
 - Math: `$...$` inline, `$$...$$` display. KaTeX renders it at build time.
-- Interactive HTML: put the file in `static/viz/`, then use `{{< viz src="viz/<file>.html" height="700px" >}}`.
+- Interactive HTML: put the file in the post folder, then use `{{< viz src="<file>.html" height="700px" wide="true" >}}`.
 
 ## Check before push
 

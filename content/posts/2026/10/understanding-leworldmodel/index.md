@@ -1,5 +1,5 @@
 ---
-title: 'One LeWM Training Step, Visualized'
+title: 'Understanding LeWorldModel'
 date: 2026-10-07
 draft: false
 tags: ['world-models', 'jepa', 'visualization']
