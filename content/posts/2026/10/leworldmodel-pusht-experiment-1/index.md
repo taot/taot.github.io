@@ -1,7 +1,7 @@
 ---
 title: 'LeWorldModel on PushT: First Experiments'
 date: 2026-10-08
-draft: true
+draft: false
 categories: ['experiments']
 tags: ['world-model', 'jepa']
 summary: ''
