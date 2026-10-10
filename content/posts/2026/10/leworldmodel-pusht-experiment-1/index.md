@@ -69,8 +69,7 @@ ShowToc: false
 
 The ± is computed the same way as the paper's. The sample std is ±5.5.
 
-## Remaining real differences
+## Differences
 
 1. **Epochs: 3 vs 10.** Most likely the main cause of the gap.
 2. **Image size: 112 vs 224**, for both training and eval.
-3. **Seeds: 1 vs 3.** With 50 episodes, one run is uncertain by about ±5 points.
