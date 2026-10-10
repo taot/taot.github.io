@@ -4,7 +4,7 @@ date: 2026-10-07
 draft: false
 categories: ['notes']
 tags: ['world-model', 'jepa', 'visualization']
-summary: 'How LeWorldModel prevents representation collapse with SIGReg, with interactive visualizations of one training step and of the characteristic-function test.'
+summary: 'How LeWorldModel prevents representation collapse with SIGReg, with interactive visualizations of one training step, the characteristic-function test, and CEM planning.'
 ShowToc: false
 ---
 
@@ -20,7 +20,7 @@ SIGReg projects the batch of embeddings onto random 1-D directions and computes 
 
 Why project onto random 1-D directions? Testing whether a high-dimensional distribution is an isotropic Gaussian $\mathcal{N}(0, I)$ is hard, but the Epps–Pulley test works well in one dimension. By the Cramér–Wold theorem, a distribution is $\mathcal{N}(0, I)$ if and only if every 1-D projection of it is $\mathcal{N}(0, 1)$. So it is enough to test 1-D projections. Each training step samples 1024 new random directions, so the encoder cannot hide a "bad" direction (a direction where the projected embeddings are not $\mathcal{N}(0, 1)$) for long. The LeJEPA paper shows that sampling a modest number of new directions at each step is enough to prevent collapse in practice.
 
-To make the training pipeline and SIGReg easier to understand, I asked Claude Code to create two interactive visualizations.
+To make the training pipeline, SIGReg, and planning easier to understand, I asked Claude Code to create four interactive visualizations.
 
 ### Training Pipeline Visualization
 
@@ -35,3 +35,17 @@ Modules with a "+" sign can be expanded. Click the "+" to see inside a module, f
 This visualizer shows the Epps–Pulley test for one 1-D projection. Each sample $x$ is put on the unit circle at angle $t \cdot x$, and the centroid of the points is the empirical characteristic function at $t$. Move the $t$ slider, or click Play, to see the centroid follow (or miss) the target $e^{-t^2/2}$. Then choose another distribution, for example "Collapsed", and see how the SIGReg value grows.
 
 {{< viz src="sigreg_cf.html" height="900px" title="SIGReg characteristic function visualizer" >}}
+
+### Planning Pipeline Visualization
+
+At test time, LeWM plans with the Cross-Entropy Method (CEM) in latent space. At each planning step, the solver samples 300 candidate action plans from a Gaussian, uses the predictor to roll out each plan in latent space, and scores each plan by the distance between its last predicted embedding and the embedding of the goal image. It keeps the best 30 plans, fits a new Gaussian to them, and repeats this 30 times. The policy then executes the first actions of the mean plan in the environment.
+
+This visualizer shows one planning step on Push-T, with the tensors and their shapes. As in the training visualizer, use the buttons to move from step to step, and click "+" to see inside a module.
+
+{{< viz src="lewm_planning_pipeline.html" height="900px" title="LeWM planning pipeline visualizer" >}}
+
+### Planning Episode Visualization
+
+This visualizer shows real data from one Push-T episode, recorded from a LeWM model that I trained. For each plan, you can see the environment frames, the costs of the candidates at each CEM iteration, and the imagined paths in latent space as the CEM moves toward the goal.
+
+{{< viz src="lewm_planning.html" height="900px" title="LeWM planning episode visualizer" >}}
