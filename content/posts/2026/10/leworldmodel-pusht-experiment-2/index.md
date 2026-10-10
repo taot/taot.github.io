@@ -1,7 +1,7 @@
 ---
 title: 'LeWorldModel on PushT: Second Experiments'
 date: 2026-10-10
-draft: false
+draft: true
 categories: ['experiments']
 tags: ['world-model', 'jepa']
 summary: ''
@@ -36,7 +36,7 @@ This run fixes the two main differences from the [first experiment](/posts/2026/
 | Dataset | `librakevin/lewm-pusht` | DINO-WM Push-T, 20,000 expert episodes | ≈ (not verified) |
 | Training seeds | 1 (seed 3072) | 3 | ⚠️ |
 
-The run took 6 h 40 min on one RTX 5090: 13,933 steps per epoch and 139,330 steps in total.
+The run took 6 h 40 min on one RTX 5090: 13,933 steps per epoch and 139,330 steps in total. The full training log is in [train.log](train.log).
 
 ```bash
 python train.py data=pusht img_size=224 trainer.max_epochs=10
