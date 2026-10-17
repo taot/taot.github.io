@@ -1,7 +1,7 @@
 ---
 title: 'Leworldmodel Pusht Experiment Ablation No Sigreg'
 date: 2026-10-17
-draft: true
+draft: false
 categories: ['experiments']
 tags: ['world-model', 'jepa']
 summary: ''
