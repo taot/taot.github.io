@@ -60,7 +60,7 @@ The frames are in two groups: 20,000 random frames from the whole dataset, which
 
 ## Q: What does the result say? What's the restriction or drawback of SIGReg?
 
-Without SIGReg, the embeddings collapse completely: the spread is about 10⁻⁵, compared with about 14 with SIGReg.
+Without SIGReg, the embeddings collapse completely: the spread is about 10⁻⁵, compared with about 14 with SIGReg. The planner cannot use this model: its success rate on PushT is only 2.8% (mean of 5 seeds).
 
 With SIGReg, there is no complete collapse, but there is some dimensional collapse: the effective rank is only about 69 of 192 at epoch 3.
 
@@ -278,3 +278,24 @@ The projector is `Linear → BatchNorm → GELU → Linear`, so the BatchNorm is
 
 - Without SIGReg, the encoder output also collapses completely (spread 1.6 × 10⁻⁴ at a distance of 13.6 from 0). So the collapse is not only in the projector.
 - With SIGReg, `cls` is not collapsed, but its effective rank is much lower than `emb` (31 vs 69 at epoch 3; 36 vs 98 at epoch 10 for the img224 run). SIGReg acts on `emb`, not on `cls`, so the projector spreads a lower-rank encoder output over more directions.
+
+## 9. Planning success rate
+
+I evaluated the no-SIGReg model (epoch 3) with the CEM planner on PushT, with 5 different seeds. Each seed gives a different set of 50 start states from the dataset. The goal is the expert's state 25 steps later, and the planner has 50 steps to reach it.
+
+```bash
+python eval.py --config-name=pusht.yaml policy=pusht/2026-10-14_115337_img112_s3072_nosigreg/weights_epoch_003.pt eval.img_size=112 seed=<0..4>
+```
+
+| Seed | Success rate |
+|---|---|
+| 0 | 2.0% |
+| 1 | 4.0% |
+| 2 | 0.0% |
+| 3 | 4.0% |
+| 4 | 4.0% |
+| **Mean ± std** | **2.8% ± 1.8%** |
+
+**Result.** The planner reaches the goal in only 0–2 of 50 episodes for each seed. This agrees with section 5: when all latents are at almost the same point, the planning cost is almost the same for all action plans, so the planner cannot select a good plan.
+
+I did not evaluate the SIGReg baseline or a random policy with the same seeds yet, so I cannot say if 2.8% is better than chance.
