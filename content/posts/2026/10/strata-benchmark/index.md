@@ -1,7 +1,7 @@
 ---
 title: 'Strata Benchmark: Qwen3.8-Flash-Next Q2 on an RTX 5090'
 date: 2026-10-19T07:54:25-04:00
-draft: true
+draft: false
 categories: ['experiments']
 tags: ['llm', 'benchmark', 'strata', 'local-models']
 summary: 'Quality and speed of Qwen3.8-Flash-Next (Q2_0) served by Strata on one RunPod RTX 5090, with thinking on and off.'
