@@ -4,6 +4,8 @@ title = "Terry's Latent Space"
 theme = 'PaperMod'
 enableGitInfo = true
 enableRobotsTXT = true
+# Show tag and other list titles as written, not in Title Case.
+capitalizeListTitles = false
 
 # Only Markdown is content. Other files in a page bundle (for example
 # interactive .html pages) are published as they are.
