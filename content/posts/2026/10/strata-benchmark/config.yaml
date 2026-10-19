@@ -1,0 +1,63 @@
+level:
+  name: quick
+  tests:
+    speed:
+      area: speed
+      passes: 1
+      prompt_lengths:
+      - 1024
+      - 8192
+      - 32768
+      output_tokens: 256
+      sample_memory: auto
+    ifeval:
+      area: chat
+      limit: 100
+    mmlu_pro:
+      area: chat
+      limit: 50
+    livecodebench_pro:
+      area: coding
+      difficulty: easy
+      split: null
+      limit: 30
+    bfcl:
+      area: agent
+      limit: 100
+model:
+  name: strata-q2-runpod-5090
+  endpoint:
+    base_url: http://127.0.0.1:8080/v1
+    model_id: qwen3.8-flash-next
+    api_key_env: null
+  limits:
+    max_concurrency: 1
+    max_context: 131072
+  thinking:
+    'on':
+      chat_template_kwargs:
+        enable_thinking: true
+    'off':
+      chat_template_kwargs:
+        enable_thinking: false
+  labels:
+    engine: strata
+    quant: Q2_0
+    hardware: RunPod RTX 5090 32GB, 108GB RAM
+helper:
+  base_url: https://api.llm-token.cn/v1
+  model_id: deepseek-v4.1-flash
+  api_key_env: LLM_TOKEN_CN_API_KEY
+run:
+  thinking_modes:
+  - 'on'
+  - 'off'
+  repeats: 1
+  subset_seed: 1234
+  sampling_seed: null
+  only: null
+  skip: []
+  results_dir: results
+  request_timeout: 600
+  max_tokens: 16384
+  display: plain

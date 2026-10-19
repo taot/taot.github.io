@@ -1,0 +1,98 @@
+{
+  "output_tokens": 256,
+  "thinking_fields": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    }
+  },
+  "tokens_per_word": 1.028,
+  "fixed_tokens": 92.0,
+  "samples": [
+    {
+      "kind": "cold",
+      "target_tokens": 1024,
+      "prompt_tokens": 901,
+      "completion_tokens": 256,
+      "ttft_s": 1.276,
+      "total_s": 8.53,
+      "prefill_tps": 706.1,
+      "decode_tps": 35.2,
+      "finish_reason": "length",
+      "error": null
+    },
+    {
+      "kind": "warm",
+      "target_tokens": 1024,
+      "prompt_tokens": 1017,
+      "completion_tokens": 256,
+      "ttft_s": 1.899,
+      "total_s": 4.35,
+      "prefill_tps": 535.5,
+      "decode_tps": 105.6,
+      "finish_reason": "length",
+      "error": null
+    },
+    {
+      "kind": "warm",
+      "target_tokens": 8192,
+      "prompt_tokens": 8200,
+      "completion_tokens": 256,
+      "ttft_s": 4.837,
+      "total_s": 7.789,
+      "prefill_tps": 1695.3,
+      "decode_tps": 87.8,
+      "finish_reason": "length",
+      "error": null
+    },
+    {
+      "kind": "warm",
+      "target_tokens": 32768,
+      "prompt_tokens": 32856,
+      "completion_tokens": 256,
+      "ttft_s": 12.114,
+      "total_s": 15.009,
+      "prefill_tps": 2712.2,
+      "decode_tps": 89.1,
+      "finish_reason": "length",
+      "error": null
+    }
+  ],
+  "skipped_lengths": [],
+  "summary": {
+    "cold": {
+      "n": 1.0,
+      "prompt_tokens": 901,
+      "ttft_s": 1.276,
+      "prefill_tps": 706.1,
+      "decode_tps": 35.2
+    },
+    "warm_1024": {
+      "n": 1.0,
+      "prompt_tokens": 1017,
+      "ttft_s": 1.899,
+      "prefill_tps": 535.5,
+      "decode_tps": 105.6
+    },
+    "warm_8192": {
+      "n": 1.0,
+      "prompt_tokens": 8200,
+      "ttft_s": 4.837,
+      "prefill_tps": 1695.3,
+      "decode_tps": 87.8
+    },
+    "warm_32768": {
+      "n": 1.0,
+      "prompt_tokens": 32856,
+      "ttft_s": 12.114,
+      "prefill_tps": 2712.2,
+      "decode_tps": 89.1
+    }
+  },
+  "memory": {
+    "gpu_used_mib_start": 12,
+    "gpu_used_mib_peak": 12,
+    "ram_used_mib_start": 12046,
+    "ram_used_mib_peak": 12088,
+    "note": "system-wide numbers, not only the server process"
+  }
+}
