@@ -1,0 +1,92 @@
+<svg style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif" viewBox="-10 -4 704 346" width="704" height="346" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="State graph of the two-thread counter">
+<rect x="-10" y="-4" width="704" height="346" rx="8" fill="#ffffff"/>
+<defs>
+<marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#8a949c"/></marker>
+<marker id="ahr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+</defs>
+<path d="M100,158 C122.0,158 122.0,96 144,96" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ahr)"/>
+<text x="122.0" y="122.0" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#dc2626; font-weight:700">T1 reads</text>
+<path d="M100,158 C122.0,158 122.0,220 144,220" fill="none" stroke="#8a949c" stroke-width="1.2" marker-end="url(#ah)"/>
+<text x="122.0" y="184.0" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#8a949c; font-weight:400">T2 reads</text>
+<path d="M246,96 C268.0,96 268.0,32 290,32" fill="none" stroke="#8a949c" stroke-width="1.2" marker-end="url(#ah)"/>
+<text x="268.0" y="59.0" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#8a949c; font-weight:400">T1 writes</text>
+<path d="M246,96 C268.0,96 268.0,158 290,158" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ahr)"/>
+<text x="268.0" y="122.0" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#dc2626; font-weight:700">T2 reads</text>
+<path d="M246,220 C268.0,220 268.0,158 290,158" fill="none" stroke="#8a949c" stroke-width="1.2" marker-end="url(#ah)"/>
+<text x="268.0" y="184.0" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#8a949c; font-weight:400">T1 reads</text>
+<path d="M246,220 C268.0,220 268.0,284 290,284" fill="none" stroke="#8a949c" stroke-width="1.2" marker-end="url(#ah)"/>
+<text x="268.0" y="247.0" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#8a949c; font-weight:400">T2 writes</text>
+<path d="M392,32 C414.0,32 414.0,32 436,32" fill="none" stroke="#8a949c" stroke-width="1.2" marker-end="url(#ah)"/>
+<text x="414.0" y="27.0" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#8a949c; font-weight:400">T2 reads</text>
+<path d="M392,158 C414.0,158 414.0,117 436,117" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ahr)"/>
+<text x="414.0" y="132.5" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#dc2626; font-weight:700">T1 writes</text>
+<path d="M392,158 C414.0,158 414.0,199 436,199" fill="none" stroke="#8a949c" stroke-width="1.2" marker-end="url(#ah)"/>
+<text x="414.0" y="173.5" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#8a949c; font-weight:400">T2 writes</text>
+<path d="M392,284 C414.0,284 414.0,284 436,284" fill="none" stroke="#8a949c" stroke-width="1.2" marker-end="url(#ah)"/>
+<text x="414.0" y="279.0" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#8a949c; font-weight:400">T1 reads</text>
+<path d="M538,32 C560.0,32 560.0,32 582,32" fill="none" stroke="#8a949c" stroke-width="1.2" marker-end="url(#ah)"/>
+<text x="560.0" y="27.0" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#8a949c; font-weight:400">T2 writes</text>
+<path d="M538,117 C560.0,117 560.0,158 582,158" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ahr)"/>
+<text x="560.0" y="132.5" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#dc2626; font-weight:700">T2 writes</text>
+<path d="M538,199 C560.0,199 560.0,158 582,158" fill="none" stroke="#8a949c" stroke-width="1.2" marker-end="url(#ah)"/>
+<text x="560.0" y="173.5" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#8a949c; font-weight:400">T1 writes</text>
+<path d="M538,284 C560.0,284 560.0,284 582,284" fill="none" stroke="#8a949c" stroke-width="1.2" marker-end="url(#ah)"/>
+<text x="560.0" y="279.0" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#8a949c; font-weight:400">T1 writes</text>
+<rect x="0" y="132.0" width="100" height="52" rx="6" fill="rgba(93,131,146,0.16)" stroke="#5d8392" stroke-width="2"/>
+<text x="8" y="148.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 0</text>
+<text x="8" y="163.0" style="font-size:11px; fill:#1f2937">T1: read</text>
+<text x="8" y="177.0" style="font-size:11px; fill:#1f2937">T2: read</text>
+<rect x="146" y="70.0" width="100" height="52" rx="6" fill="rgba(128,128,128,0.06)" stroke="rgba(128,128,128,0.55)" stroke-width="1"/>
+<text x="154" y="86.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 0</text>
+<text x="154" y="101.0" style="font-size:11px; fill:#1f2937">T1: write 1</text>
+<text x="154" y="115.0" style="font-size:11px; fill:#1f2937">T2: read</text>
+<rect x="146" y="194.0" width="100" height="52" rx="6" fill="rgba(128,128,128,0.06)" stroke="rgba(128,128,128,0.55)" stroke-width="1"/>
+<text x="154" y="210.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 0</text>
+<text x="154" y="225.0" style="font-size:11px; fill:#1f2937">T1: read</text>
+<text x="154" y="239.0" style="font-size:11px; fill:#1f2937">T2: write 1</text>
+<rect x="292" y="6.0" width="100" height="52" rx="6" fill="rgba(128,128,128,0.06)" stroke="rgba(128,128,128,0.55)" stroke-width="1"/>
+<text x="300" y="22.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 1</text>
+<text x="300" y="37.0" style="font-size:11px; fill:#1f2937">T1: done</text>
+<text x="300" y="51.0" style="font-size:11px; fill:#1f2937">T2: read</text>
+<rect x="292" y="132.0" width="100" height="52" rx="6" fill="rgba(128,128,128,0.06)" stroke="rgba(128,128,128,0.55)" stroke-width="1"/>
+<text x="300" y="148.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 0</text>
+<text x="300" y="163.0" style="font-size:11px; fill:#1f2937">T1: write 1</text>
+<text x="300" y="177.0" style="font-size:11px; fill:#1f2937">T2: write 1</text>
+<rect x="292" y="258.0" width="100" height="52" rx="6" fill="rgba(128,128,128,0.06)" stroke="rgba(128,128,128,0.55)" stroke-width="1"/>
+<text x="300" y="274.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 1</text>
+<text x="300" y="289.0" style="font-size:11px; fill:#1f2937">T1: read</text>
+<text x="300" y="303.0" style="font-size:11px; fill:#1f2937">T2: done</text>
+<rect x="438" y="6.0" width="100" height="52" rx="6" fill="rgba(128,128,128,0.06)" stroke="rgba(128,128,128,0.55)" stroke-width="1"/>
+<text x="446" y="22.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 1</text>
+<text x="446" y="37.0" style="font-size:11px; fill:#1f2937">T1: done</text>
+<text x="446" y="51.0" style="font-size:11px; fill:#1f2937">T2: write 2</text>
+<rect x="438" y="91.0" width="100" height="52" rx="6" fill="rgba(128,128,128,0.06)" stroke="rgba(128,128,128,0.55)" stroke-width="1"/>
+<text x="446" y="107.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 1</text>
+<text x="446" y="122.0" style="font-size:11px; fill:#1f2937">T1: done</text>
+<text x="446" y="136.0" style="font-size:11px; fill:#1f2937">T2: write 1</text>
+<rect x="438" y="173.0" width="100" height="52" rx="6" fill="rgba(128,128,128,0.06)" stroke="rgba(128,128,128,0.55)" stroke-width="1"/>
+<text x="446" y="189.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 1</text>
+<text x="446" y="204.0" style="font-size:11px; fill:#1f2937">T1: write 1</text>
+<text x="446" y="218.0" style="font-size:11px; fill:#1f2937">T2: done</text>
+<rect x="438" y="258.0" width="100" height="52" rx="6" fill="rgba(128,128,128,0.06)" stroke="rgba(128,128,128,0.55)" stroke-width="1"/>
+<text x="446" y="274.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 1</text>
+<text x="446" y="289.0" style="font-size:11px; fill:#1f2937">T1: write 2</text>
+<text x="446" y="303.0" style="font-size:11px; fill:#1f2937">T2: done</text>
+<rect x="584" y="6.0" width="100" height="52" rx="6" fill="rgba(22,163,74,0.14)" stroke="#16a34a" stroke-width="1"/>
+<text x="592" y="22.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 2 ✓</text>
+<text x="592" y="37.0" style="font-size:11px; fill:#1f2937">T1: done</text>
+<text x="592" y="51.0" style="font-size:11px; fill:#1f2937">T2: done</text>
+<rect x="584" y="132.0" width="100" height="52" rx="6" fill="rgba(220,38,38,0.14)" stroke="#dc2626" stroke-width="2"/>
+<text x="592" y="148.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 1 ✗</text>
+<text x="592" y="163.0" style="font-size:11px; fill:#1f2937">T1: done</text>
+<text x="592" y="177.0" style="font-size:11px; fill:#1f2937">T2: done</text>
+<rect x="584" y="258.0" width="100" height="52" rx="6" fill="rgba(22,163,74,0.14)" stroke="#16a34a" stroke-width="1"/>
+<text x="592" y="274.0" style="font-size:13px; font-weight:700; fill:#1f2937">x = 2 ✓</text>
+<text x="592" y="289.0" style="font-size:11px; fill:#1f2937">T1: done</text>
+<text x="592" y="303.0" style="font-size:11px; fill:#1f2937">T2: done</text>
+<text x="50.0" y="333" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#1f2937; opacity:0.6">step 0</text>
+<text x="196.0" y="333" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#1f2937; opacity:0.6">step 1</text>
+<text x="342.0" y="333" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#1f2937; opacity:0.6">step 2</text>
+<text x="488.0" y="333" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#1f2937; opacity:0.6">step 3</text>
+<text x="634.0" y="333" style="paint-order:stroke; stroke:#ffffff; stroke-width:3px; stroke-linejoin:round; font-size:10px; text-anchor:middle; fill:#1f2937; opacity:0.6">step 4</text>
+</svg>
